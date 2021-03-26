@@ -1,24 +1,5 @@
 @import './_reset.css';
 
-@font-face {
-  font-family: "RetroComputer";
-  src: url(~assets/fonts/RetroComputer/Retro_computer.ttf);
-}
-
-@font-face {
-  font-family: "AbadiMTLight";
-  src: url(~assets/fonts/AbadiMTLight/AbadiMTStd-ExtraLight.otf);
-}
-
-@font-face {
-  font-family: "AbadiMTBold";
-  src: url(~assets/fonts/AbadiMTLight/AbadiMTStd-Bold.otf);
-}
-
-body {
-  margin: 0 !important;
-}
-
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
