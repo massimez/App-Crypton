@@ -1,20 +1,20 @@
 export default {
-  setLoading(state, value) {
-    state.isLoading = value;
+  setLoading(state, payload) {
+    state.isLoading = payload;
   },
-  setStatusText(state, value) {
-    state.loaderStatusText = value;
+  setStatusText(state, payload) {
+    state.loaderStatusText = payload;
   },
-  setLoaderMode(state, value) {
-    state.loaderMode = value;
+  setLoaderMode(state, payload) {
+    state.loaderMode = payload;
   },
-  setLoaderProgress(state, value) {
-    state.loaderProgress = value;
+  setLoaderProgress(state, payload) {
+    state.loaderProgress = payload;
   },
-  setProjects(state, value) {
-    state.projects = value;
+  setProjects(state, payload) {
+    state.projects = payload;
   },
-  setIsLoaderBackgroundHider(state, value) {
-    state.isLoaderBackgroundHider = value;
+  setIsLoaderBackgroundHider(state, payload) {
+    state.isLoaderBackgroundHider = payload;
   },
 };

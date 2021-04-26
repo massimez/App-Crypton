@@ -1,14 +1,14 @@
 export default {
-  setIsShow(state, value) {
-    state.isShow = value;
+  setIsShow(state, payload) {
+    state.isShow = payload;
   },
-  setCurrentModalKey(state, value) {
-    state.currentModalKey = value;
+  setCurrentModalKey(state, payload) {
+    state.currentModalKey = payload;
   },
-  setOptions(state, value) {
-    state.options = value;
+  setOptions(state, payload) {
+    state.options = payload;
   },
-  setUnclicable(state, value) {
+  setUnclicable(state) {
     state.options = {
       ...state.options,
       isUnclosable: true,
