@@ -67,10 +67,10 @@ export default {
   font-weight: 700;
   font-size: 16px;
   color: #FFFFFF;
-  background: #d04f38;
+  background: #d43333;
   &:hover {
     color: #FFFFFF;
-    background: #b35341;
+    background: #b34165;
   }
   &_disabled {
     pointer-events: none;
