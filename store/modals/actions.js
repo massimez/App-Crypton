@@ -9,7 +9,7 @@ export default {
     commit('setCurrentModalKey', '');
     commit('setOptions', {});
   },
-  setUnclicable({ commit }) {
-    commit('setUnclicable');
+  setUnclosable({ commit }) {
+    commit('setUnclosable');
   },
 };

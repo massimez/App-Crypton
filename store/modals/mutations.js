@@ -8,7 +8,7 @@ export default {
   setOptions(state, payload) {
     state.options = payload;
   },
-  setUnclicable(state) {
+  setUnclosable(state) {
     state.options = {
       ...state.options,
       isUnclosable: true,

@@ -5,15 +5,13 @@
       class="base-modal__header"
     >
       <div class="base-modal__title">
-        {{ title || options.title || 'Default' }}
+        <span>{{ options.title || title || 'Default' }}</span>
       </div>
       <button
         v-if="!options.isUnclosable"
-        class="base-modal__x"
+        class="base-modal__x icon-Close"
         @click="close()"
-      >
-        x
-      </button>
+      />
     </div>
     <slot />
   </div>

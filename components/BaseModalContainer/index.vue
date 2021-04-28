@@ -5,13 +5,7 @@
       class="base-modal"
       @mousedown.self="backgroundClick"
     >
-      <base-modal-box
-        v-if="modals.default === currentModalKey"
-      >
-        <div class="base-modal__content base-modal__text">
-          {{ options.text }}
-        </div>
-      </base-modal-box>
+      <component :is="currentModalKey" />
     </div>
   </transition>
 </template>
@@ -19,9 +13,13 @@
 import { mapGetters } from 'vuex';
 import modals from '@/store/modals/modals';
 
+import BaseModalStatus from '@/components/Modals/BaseModalStatus';
+import BaseModalDefault from '@/components/Modals/BaseModalDefault';
+
 export default {
   components: {
-
+    'base-modal-status': BaseModalStatus,
+    'base-modal-default': BaseModalDefault,
   },
   data: () => ({
     modals,
