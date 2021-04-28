@@ -1,27 +1,27 @@
 import loaderModes from '~/store/main/loaderModes';
 
 export default {
-  setLoading({ commit }, value) {
-    commit('setLoading', value);
+  setLoading({ commit }, payload) {
+    commit('setLoading', payload);
     commit('setStatusText', '');
     commit('setLoaderMode', loaderModes.default);
     commit('setLoaderProgress', 0);
     commit('setIsLoaderBackgroundHider', false);
   },
-  setIsLoaderBackgroundHider({ commit }, value) {
-    commit('setIsLoaderBackgroundHider', value);
+  setIsLoaderBackgroundHider({ commit }, payload) {
+    commit('setIsLoaderBackgroundHider', payload);
   },
-  setStatusText({ commit }, value) {
-    commit('setStatusText', value);
+  setStatusText({ commit }, payload) {
+    commit('setStatusText', payload);
   },
-  setLoaderMode({ commit }, value) {
-    commit('setLoaderMode', value);
+  setLoaderMode({ commit }, payload) {
+    commit('setLoaderMode', payload);
   },
-  setLoaderProgress({ commit }, value) {
-    commit('setLoaderProgress', value);
+  setLoaderProgress({ commit }, payload) {
+    commit('setLoaderProgress', payload);
   },
-  setProjects({ commit }, value) {
-    commit('setProjects', value);
+  setProjects({ commit }, payload) {
+    commit('setProjects', payload);
   },
   async getApiData({ dispatch }) {
     await dispatch('rate/getRate', null, { root: true });

@@ -1,8 +1,8 @@
 export default {
-  show({ commit }, value) {
+  show({ commit }, payload) {
     commit('setIsShow', true);
-    commit('setCurrentModalKey', value.key);
-    commit('setOptions', value);
+    commit('setCurrentModalKey', payload.key);
+    commit('setOptions', payload);
   },
   hide({ commit }) {
     commit('setIsShow', false);
