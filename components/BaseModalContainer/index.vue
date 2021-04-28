@@ -2,16 +2,16 @@
   <transition name="fade">
     <div
       v-if="isShow"
-      class="ctm-modal"
+      class="base-modal"
       @mousedown.self="backgroundClick"
     >
-      <ctm-modal-box
+      <base-modal-box
         v-if="modals.default === currentModalKey"
       >
-        <div class="ctm-modal__content ctm-modal__text">
+        <div class="base-modal__content base-modal__text">
           {{ options.text }}
         </div>
-      </ctm-modal-box>
+      </base-modal-box>
     </div>
   </transition>
 </template>
@@ -46,7 +46,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.ctm-modal {
+.base-modal {
   @include modalKit;
 }
 </style>

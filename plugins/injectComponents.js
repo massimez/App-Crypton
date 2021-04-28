@@ -1,7 +1,9 @@
 import Vue from 'vue';
 
-import CtmModal from '~/components/CtmModal';
-import CtmModalBox from '~/components/CtmModal/CtmModalBox';
+import BaseModalContainer from '~/components/BaseModalContainer';
+import BaseModalBox from '~/components/BaseModalBox';
+import BaseBtn from '~/components/ui/BaseBtn';
 
-Vue.component('ctm-modal', CtmModal);
-Vue.component('ctm-modal-box', CtmModalBox);
+Vue.component('base-modal-container', BaseModalContainer);
+Vue.component('base-modal-box', BaseModalBox);
+Vue.component('base-btn', BaseBtn);

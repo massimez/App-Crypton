@@ -9,7 +9,7 @@
       <!--      <loader v-if="isLoading" />-->
       <!--      loader-->
     </transition>
-    <ctm-modal />
+    <base-modal-container />
   </div>
 </template>
 <script>

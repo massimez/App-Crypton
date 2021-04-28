@@ -1,15 +1,15 @@
 <template>
-  <div class="ctm-modal__box">
+  <div class="base-modal__box">
     <div
       v-if="isHeader === true"
-      class="ctm-modal__header"
+      class="base-modal__header"
     >
-      <div class="ctm-modal__title">
+      <div class="base-modal__title">
         {{ title || options.title || 'Default' }}
       </div>
       <button
         v-if="!options.isUnclosable"
-        class="ctm-modal__x"
+        class="base-modal__x"
         @click="close()"
       >
         x
@@ -49,7 +49,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.ctm-modal {
+.base-modal {
   @include modalKit;
 }
 </style>

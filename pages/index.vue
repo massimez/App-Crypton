@@ -3,6 +3,7 @@
     <button @click="openTestModal()">
       modal
     </button>
+    <base-btn>Base btn</base-btn>
   </div>
 </template>
 <script>
