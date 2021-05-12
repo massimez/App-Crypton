@@ -2,7 +2,6 @@
   <validation-observer v-slot="{ handleSubmit }">
     <form
       action=""
-      class="chat__form"
       @submit.prevent="handleSubmit(click)"
     >
       <validation-provider
