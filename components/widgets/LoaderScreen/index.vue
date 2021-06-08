@@ -47,7 +47,7 @@ export default {
     align-items: center;
   }
   &__text {
-    background: #FAEEEB;
+    background: #ffffff;
     padding: 1px 8px;
     font-weight: bold;
     font-size: 12px;
@@ -100,7 +100,7 @@ $dotsColor: #000000;
   margin: 8px;
   border-radius: 50%;
   border: 6px solid #ffffff;
-  border-color: #ffffff transparent #FAEEEB transparent;
+  border-color: #ffffff transparent #ffffff transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
