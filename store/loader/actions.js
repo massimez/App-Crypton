@@ -1,5 +1,3 @@
-import loaderModes from '~/store/loader/loaderModes';
-
 export default {
   setLoading({ commit }, payload) {
     commit('setLoading', payload);
