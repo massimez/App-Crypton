@@ -29,7 +29,7 @@ const fetchContractData = async (method, abi, address, params) => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-const initWeb3Wallet = async () => {
+export const initWeb3Wallet = async () => {
   try {
     const { ethereum } = window; // ethereum - metamask
     web3Wallet = new Web3(ethereum); // init web3
@@ -52,9 +52,45 @@ const initWeb3Wallet = async () => {
 // eslint-disable-next-line import/prefer-default-export
 export async function getSym(addressKwikswapToken) {
   try {
-    await initWeb3Wallet();
     const sym = await fetchContractData('symbol', ERC20, addressKwikswapToken);
     return sym;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+}
+export async function getBalance(addressToken) {
+  try {
+    await initWeb3Wallet();
+    const balance = await fetchContractData('balanceOf', ERC20, addressToken, [userAddress]);
+    console.log(balance);
+    const decimal = await fetchContractData('decimals', ERC20, addressToken);
+    console.log(decimal);
+    return balance;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+}
+export async function getDecimal(addressToken) {
+  try {
+    await initWeb3Wallet();
+    const decimal = await fetchContractData('decimals', ERC20, addressToken);
+    console.log(decimal);
+    return decimal;
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+}
+// eslint-disable-next-line no-shadow
+export async function getAllowance(addressToken, userAddress, recipientAddress) {
+  try {
+    const balance = await fetchContractData('balanceOf', ERC20, addressToken, [userAddress]);
+    console.log(balance);
+    const decimal = await fetchContractData('decimals', ERC20, addressToken);
+    console.log(decimal);
+    return decimal;
   } catch (e) {
     console.log(e);
     return e;

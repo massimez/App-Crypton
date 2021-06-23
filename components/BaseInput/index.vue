@@ -1,10 +1,15 @@
 <template>
-  <input :style="baseInputStyles"  :type="inputType" :name= "inputName" :value="valueIn" >
+  <input
+    :style="baseInputStyles"
+    :type="inputType"
+    :name="inputName"
+    :value="valueIn"
+  >
 </template>
 
 <script>
 export default {
-  name: 'index.vue',
+  name: 'IndexVue',
   props: {
     inputName: {
       type: String,

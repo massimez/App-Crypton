@@ -1,24 +1,31 @@
 <template>
- <select :style="BaseSelectCMStyles" :name="name">
-   <option v-for="(item,index) in res" :key="index">
-     {{ item }}
-   </option>
- </select>
+  <select
+    :style="BaseSelectCMStyles"
+    :name="name"
+  >
+    <option
+      v-for="(item,index) in tokensSymbol"
+      :key="index"
+    >
+      {{ item }}
+    </option>
+  </select>
 </template>
 
 <script>
 import { getSym } from '~/utils/web3';
-import { arrayTokkens } from '~/utils/arrayTokkens';
+import { tokens } from '~/utils/Tokens';
 
 export default {
   name: 'BaseSelectCM',
-  data() {
-    return { res: [] };
-  },
   props: {
     name: {
       type: String,
       default: '',
+    },
+    tokensSymbol: {
+      type: Array,
+      default: () => [],
     },
     bgColor: {
       type: String,
@@ -32,23 +39,8 @@ export default {
       type: String,
       default: '120px',
     },
-    tokkensCM: {
-      type: Array,
-      default: () => [],
-    },
   },
-  created() {
-    this.getAllSym(this.res);
-  },
-  methods: {
-    async getAllSym(res) {
-      console.log(arrayTokkens);
-      arrayTokkens.map(async (token) => {
-        res.push(await getSym(token));
-        return null;
-      });
-    },
-  },
+
   computed: {
     BaseSelectCMStyles() {
       return [
@@ -65,6 +57,7 @@ export default {
       ];
     },
   },
+
 };
 </script>
 

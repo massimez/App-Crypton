@@ -1,5 +1,10 @@
 <template>
-  <button class="base-btn" :style="btnStyles">{{ btnText }}</button>
+  <button
+    class="base-btn"
+    :style="btnStyles"
+  >
+    {{ btnText }}
+  </button>
 </template>
 
 <script>
@@ -19,7 +24,7 @@ export default {
     },
     width: {
       type: String,
-      default: '100%',
+      default: '187px',
     },
   },
   computed: {
@@ -46,10 +51,12 @@ export default {
   justify-content: center;
   font-weight: 700;
   font-size: 18px;
+
   &:hover {
     color: #91979c;
     background: #5641b3;
   }
+
   &_disabled {
     pointer-events: none;
   }

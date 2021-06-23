@@ -5,25 +5,85 @@
       <div>
         <label>Amount:</label>
         <div class="flex flex--space mb-60">
-          <BaseInput class="" input-type="text" input-name="amount" width="80%" />
-          <BaseSelectCM name="SyCm"  height="70px" width="15%"   />
+          <BaseInput
+            class=""
+            input-type="text"
+            input-name="amount"
+            width="80%"
+          />
+          <BaseSelectCM
+            name="SyCm"
+            height="70px"
+            width="15%"
+            :tokens-symbol="allCryptoSymbols[0]"
+          />
         </div>
-        <label >Address:</label>
-        <BaseInput class="mr-32" input-type="text" input-name="address" />
-        <div class="flex mt-32"><p class="mr-12">Your balance:</p></div>
-        <div class="flex mt-32"><p class="mr-12">Your allowance:</p></div>
+        <label>Address:</label>
+        <BaseInput
+          class="mr-32"
+          input-type="text"
+          input-name="address"
+        />
         <div class="flex mt-32">
-          <SecondBtn class="ml-32" btn-text="Get allowance" width="187px" height="50px"/>
-          <SecondBtn class="ml-32" btn-text="Approve" width="187px" height="50px"/>
-          <SecondBtn class="ml-32" btn-text="Transfer" width="187px" height="50px"/>
+          <p class="mr-12">
+            Your balance:
+          </p>
+          <p>jj</p>
+        </div>
+        <div class="flex mt-32">
+          <p class="mr-12">
+            Your allowance:
+          </p>
+        </div>
+        <div class="flex mt-32">
+          <SecondBtn
+            class="ml-32"
+            btn-text="Get allowance"
+            width="187px"
+            height="50px"
+          />
+          <SecondBtn
+            class="ml-32"
+            btn-text="Approve"
+            width="187px"
+            height="50px"
+          />
+          <SecondBtn
+            class="ml-32"
+            btn-text="Transfer"
+            width="187px"
+            height="50px"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-export default {
 
+import { mapGetters, mapActions } from 'vuex';
+
+export default {
+  data() {
+    return {
+    };
+  },
+  computed: {
+    ...mapGetters({
+      allCryptoSymbols: 'Wallet/getAllCryptoSymbols',
+    }),
+  },
+  mounted() {
+    this.setWeb3Initialized(true);
+    this.setAllCryptoSymbols();
+  },
+  methods: {
+    ...mapActions({
+      setWeb3Initialized: 'Wallet/setWeb3Initialized',
+      setAllCryptoSymbols: 'Wallet/setAllCryptoSymbols',
+    }),
+
+  },
 };
 </script>
 
