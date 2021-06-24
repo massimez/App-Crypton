@@ -10,12 +10,12 @@
             input-type="text"
             input-name="amount"
             width="80%"
+            :method="setAmount"
           />
           <BaseSelectCM
             name="SyCm"
             height="70px"
             width="15%"
-            :tokens-symbol="allCryptoSymbols[0]"
           />
         </div>
         <label>Address:</label>
@@ -23,12 +23,15 @@
           class="mr-32"
           input-type="text"
           input-name="address"
+          :method="setRecipient"
         />
         <div class="flex mt-32">
-          <p class="mr-12">
-            Your balance:
-          </p>
-          <p>jj</p>
+          <span class="mr-12">
+            <p class="mr-12">
+              Your balance:
+            </p>
+          </span>
+          <p>{{ getActiveBalance }} {{ getActiveSymbol }}</p>
         </div>
         <div class="flex mt-32">
           <p class="mr-12">
@@ -41,6 +44,7 @@
             btn-text="Get allowance"
             width="187px"
             height="50px"
+            :method-allowance="setAllowance"
           />
           <SecondBtn
             class="ml-32"
@@ -70,17 +74,27 @@ export default {
   },
   computed: {
     ...mapGetters({
-      allCryptoSymbols: 'Wallet/getAllCryptoSymbols',
+      getAllCryptoSymbols: 'Wallet/getAllCryptoSymbols',
+      IsWeb3Initialized: 'Wallet/getIsWeb3Initialized',
+      getActiveBalance: 'Wallet/getActiveBalance',
+      getSelectedToken: 'Wallet/getSelectedToken',
+      getActiveSymbol: 'Wallet/getActiveSymbol',
+      getUserAddress: 'Wallet/getUserAddress',
+      getAllowance: 'Wallet/getAllowance',
     }),
   },
   mounted() {
-    this.setWeb3Initialized(true);
-    this.setAllCryptoSymbols();
+    // this.setAllCryptoSymbols();
+    console.log(this.getAllCryptoSymbols);
   },
   methods: {
     ...mapActions({
       setWeb3Initialized: 'Wallet/setWeb3Initialized',
       setAllCryptoSymbols: 'Wallet/setAllCryptoSymbols',
+      setSelectedToken: 'Wallet/setSelectedToken',
+      setAmount: 'Wallet/setAmount',
+      setRecipient: 'Wallet/setRecipient',
+      setAllowance: 'Wallet/setAllowance',
     }),
 
   },

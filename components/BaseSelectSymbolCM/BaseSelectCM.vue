@@ -2,19 +2,21 @@
   <select
     :style="BaseSelectCMStyles"
     :name="name"
+    @change="handleSelect($event)"
   >
     <option
-      v-for="(item,index) in tokensSymbol"
+      v-for="(symbol, index) in getAllCryptoSymbols"
       :key="index"
+      :value="index"
+      :selected="index === 0"
     >
-      {{ item }}
+      {{ symbol.symbol }}
     </option>
   </select>
 </template>
 
 <script>
-import { getSym } from '~/utils/web3';
-import { tokens } from '~/utils/Tokens';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'BaseSelectCM',
@@ -22,10 +24,6 @@ export default {
     name: {
       type: String,
       default: '',
-    },
-    tokensSymbol: {
-      type: Array,
-      default: () => [],
     },
     bgColor: {
       type: String,
@@ -39,6 +37,11 @@ export default {
       type: String,
       default: '120px',
     },
+  },
+  data() {
+    return {
+      indexActiveToken: '',
+    };
   },
 
   computed: {
@@ -56,8 +59,33 @@ export default {
         },
       ];
     },
+    ...mapGetters({
+      getAllCryptoSymbols: 'Wallet/getAllCryptoSymbols',
+      IsWeb3Initialized: 'Wallet/getIsWeb3Initialized',
+    }),
   },
+  mounted() {
+    // console.log(this.getAllCryptoSymbols);
 
+  },
+  methods: {
+    ...mapActions({
+      setWeb3Initialized: 'Wallet/setWeb3Initialized',
+      setAllCryptoSymbols: 'Wallet/setAllCryptoSymbols',
+      setSelectedToken: 'Wallet/setSelectedToken',
+      setActiveBalance: 'Wallet/setActiveBalance',
+      setActiveSymbol: 'Wallet/setActiveSymbol',
+    }),
+    handleSelect(event) {
+      this.getAllCryptoSymbols.forEach((symbol, index) => {
+        if (index === parseInt(event.target.value, 10)) {
+          this.setActiveBalance(symbol.Token);
+          this.setActiveSymbol(symbol.symbol);
+          this.setSelectedToken(symbol.Token);
+        }
+      });
+    },
+  },
 };
 </script>
 

@@ -43,17 +43,17 @@ export const initWeb3Wallet = async () => {
       console.log('Change network');
       return error(500, 'current site work in rinkeby', chainId);
     }
-    return null;
+    return userAddress;
   } catch (err) {
     console.log(err);
     return error(500, 'err', err);
   }
 };
 // eslint-disable-next-line import/prefer-default-export
-export async function getSym(addressKwikswapToken) {
+export async function getSym(addressToken) {
   try {
-    const sym = await fetchContractData('symbol', ERC20, addressKwikswapToken);
-    return sym;
+    const symbol = await fetchContractData('symbol', ERC20, addressToken);
+    return symbol;
   } catch (e) {
     console.log(e);
     return e;
@@ -61,7 +61,6 @@ export async function getSym(addressKwikswapToken) {
 }
 export async function getBalance(addressToken) {
   try {
-    await initWeb3Wallet();
     const balance = await fetchContractData('balanceOf', ERC20, addressToken, [userAddress]);
     console.log(balance);
     const decimal = await fetchContractData('decimals', ERC20, addressToken);
@@ -74,7 +73,6 @@ export async function getBalance(addressToken) {
 }
 export async function getDecimal(addressToken) {
   try {
-    await initWeb3Wallet();
     const decimal = await fetchContractData('decimals', ERC20, addressToken);
     console.log(decimal);
     return decimal;
@@ -84,13 +82,12 @@ export async function getDecimal(addressToken) {
   }
 }
 // eslint-disable-next-line no-shadow
-export async function getAllowance(addressToken, userAddress, recipientAddress) {
+export async function getAllowance(userAddr, recipientAddress) {
+  console.log(userAddr, recipientAddress, 'test');
   try {
-    const balance = await fetchContractData('balanceOf', ERC20, addressToken, [userAddress]);
-    console.log(balance);
-    const decimal = await fetchContractData('decimals', ERC20, addressToken);
-    console.log(decimal);
-    return decimal;
+    const allowance = await fetchContractData('allowance', ERC20, userAddr, recipientAddress);
+    // console.log(userAddress);
+    return allowance;
   } catch (e) {
     console.log(e);
     return e;

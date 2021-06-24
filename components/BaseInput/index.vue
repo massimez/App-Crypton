@@ -4,6 +4,7 @@
     :type="inputType"
     :name="inputName"
     :value="valueIn"
+    @change="handleInout($event)"
   >
 </template>
 
@@ -39,6 +40,10 @@ export default {
       type: String,
       default: '',
     },
+    method: {
+      type: Function,
+      default: () => {},
+    },
   },
   computed: {
     baseInputStyles() {
@@ -53,6 +58,12 @@ export default {
           'text-indent': '10px',
         },
       ];
+    },
+  },
+
+  methods: {
+    handleInout(event) {
+      this.method(event.target.value);
     },
   },
 };

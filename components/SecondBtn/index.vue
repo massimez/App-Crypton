@@ -2,12 +2,15 @@
   <button
     class="base-btn"
     :style="btnStyles"
+    @click="handleClick"
   >
     {{ btnText }}
   </button>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   props: {
     btnText: {
@@ -26,6 +29,14 @@ export default {
       type: String,
       default: '187px',
     },
+    method: {
+      type: Function,
+      default: () => false,
+    },
+    methodAllowance: {
+      type: Function,
+      default: () => false,
+    },
   },
   computed: {
     btnStyles() {
@@ -36,6 +47,36 @@ export default {
           width: `${this.width}`,
         },
       ];
+    },
+    ...mapGetters({
+      getAllCryptoSymbols: 'Wallet/getAllCryptoSymbols',
+      IsWeb3Initialized: 'Wallet/getIsWeb3Initialized',
+      getActiveBalance: 'Wallet/getActiveBalance',
+      getSelectedToken: 'Wallet/getSelectedToken',
+      getUserAddress: 'Wallet/getUserAddress',
+      getAllowance: 'Wallet/getAllowance',
+      getRecipient: 'Wallet/getRecipient',
+    }),
+    ...mapActions({
+      setWeb3Initialized: 'Wallet/setWeb3Initialized',
+      setAllCryptoSymbols: 'Wallet/setAllCryptoSymbols',
+      setSelectedToken: 'Wallet/setSelectedToken',
+      setAmount: 'Wallet/setAmount',
+      setRecipient: 'Wallet/setRecipient',
+      setAllowance: 'Wallet/setAllowance',
+      setActiveBalance: 'Wallet/setActiveBalance',
+    }),
+  },
+  methods: {
+    async handleClick() {
+      if (await this.method) {
+        this.method(true);
+      }
+      if (this.methodAllowance && this.IsWeb3Initialized) {
+        console.log(this.getUserAddress);
+        console.log(this.getRecipient, 'reci');
+        this.methodAllowance(this.getUserAddress, this.getRecipient);
+      }
     },
   },
 };

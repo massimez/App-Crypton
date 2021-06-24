@@ -4,10 +4,19 @@
       <div class="template__header ">
         <div class="flex flex--end w-100 mt-40 ">
           <SecondBtn
+            v-if="IsWeb3Initialized"
             class="ml-auto"
-            btn-text="connect wallet"
+            btn-text="Disconnect wallet"
             width="187px"
             height="50px"
+          />
+          <SecondBtn
+            v-else
+            class="ml-auto"
+            btn-text="Connect wallet"
+            width="187px"
+            height="50px"
+            :method="setWeb3Initialized"
           />
         </div>
       </div>
@@ -23,13 +32,26 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
+  computed: {
+    ...mapGetters({
+      getAllCryptoSymbols: 'Wallet/getAllCryptoSymbols',
+      IsWeb3Initialized: 'Wallet/getIsWeb3Initialized',
+    }),
+  },
   mounted() {
     // fake loader
     this.SetLoader(true);
     setTimeout(() => {
       this.SetLoader(false);
     }, 1000);
+  },
+  methods: {
+    ...mapActions({
+      setWeb3Initialized: 'Wallet/setWeb3Initialized',
+    }),
   },
 };
 </script>

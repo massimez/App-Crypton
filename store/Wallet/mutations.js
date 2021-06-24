@@ -1,14 +1,32 @@
 export default {
-  setWeb3Initialized(state, playload) {
-    state.isWeb3Initialized = playload;
+  addWeb3Initialized(state, payload) {
+    state.isWeb3Initialized = payload;
   },
-  setSelectedToken(state, payload) {
-    state.selectedToken = (payload);
+  addSelectedToken(state, payload) {
+    state.selectedToken = payload;
   },
-  setAllCryptoSymbols(state, payload) {
-    state.AllCryptoSymbols.push(payload);
+  addAllCryptoSymbols(state, payload) {
+    // eslint-disable-next-line array-callback-return
+    payload.map((item) => {
+      state.AllCryptoSymbols.push(item);
+    });
   },
-  setActiveBalance(state, payload) {
-    state.activeBalance = (payload);
+  addActiveBalance(state, payload) {
+    state.activeBalance = payload;
+  },
+  addRecipient(state, payload) {
+    state.recipient = payload;
+  },
+  addAmount(state, payload) {
+    state.amount = payload;
+  },
+  addActiveSymbol(state, payload) {
+    state.activeSymbol = payload;
+  },
+  AddAllowance(state, payload) {
+    state.allowance = payload;
+  },
+  addUserAddress(state, payload) {
+    state.userAddress = payload;
   },
 };
