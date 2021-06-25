@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import {
-  getBalance, getSym, getDecimal, initWeb3Wallet, getAllowance,
+  getBalance, getSym, getDecimal, initWeb3Wallet, getAllowance, setTransferweb3, setTransferweb4, setApproveWeb4,
 } from '~/utils/web3';
 import { tokens } from '~/utils/Tokens';
 
@@ -11,10 +11,12 @@ export default {
     const resSymbol = [];
     if (payload) {
       tokens.map(async (token, i) => {
+        const decimal = await getDecimal(token);
+        const balanceBigNumber = new BigNumber(await getBalance(token)).shiftedBy(+decimal).toString();
         resSymbol[i] = {
           Token: token,
           symbol: await getSym(token),
-          balance: await getBalance(token),
+          balance: balanceBigNumber,
         };
         return null;
       });
@@ -24,15 +26,20 @@ export default {
     // Initialization
     const firstBalance = await getBalance(tokens[0]);
     const firstSymbol = await getSym(tokens[0]);
+    const decimal = await getDecimal(tokens[0]);
     setTimeout(async () => {
       commit('addAllCryptoSymbols', resSymbol);
       commit('addUserAddress', userAdsress);
       commit('addActiveBalance', firstBalance);
       commit('addActiveSymbol', firstSymbol);
+      commit('addSelectedToken', tokens[0]);
+      commit('addDecimal', decimal);
     }, 1000);
   },
-  setSelectedToken({ commit }, payload) {
+  async setSelectedToken({ commit }, payload) {
     commit('addSelectedToken', payload);
+    const decimal = await getDecimal(payload);
+    commit('addDecimal', decimal);
   },
   async setActiveBalance({ commit }, payload) {
     const balance = await getBalance(payload);
@@ -48,7 +55,6 @@ export default {
       };
       return null;
     });
-    console.log(resSymbol);
     commit('addAllCryptoSymbols', resSymbol);
   },
   setRecipient({ commit }, payload) {
@@ -60,9 +66,13 @@ export default {
   setActiveSymbol({ commit }, payload) {
     commit('addActiveSymbol', payload);
   },
-  async setAllowance({ commit }, user, recipient) {
-    console.log(user, recipient, 'actions');
-    const allowance = await getAllowance(user, recipient);
-    commit('AddAllowance', allowance);
+  setAllowance({ commit }, payload) {
+    commit('AddAllowance', payload);
+  },
+  setTransfer({ commit }, payload) {
+    commit('addTransfer', payload);
+  },
+  setApprove({ commit }, payload) {
+    commit('addApprove', payload);
   },
 };

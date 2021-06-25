@@ -5,7 +5,9 @@ export default () => ({
   activeSymbol: '',
   AllCryptoSymbols: [],
   recipient: '',
-  amount: '',
+  amount: 0,
   allowance: '',
   userAddress: '',
+  transactionHistory: [],
+  decimal: '',
 });

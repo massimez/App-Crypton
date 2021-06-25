@@ -10,6 +10,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { getAllowance } from '~/utils/web3';
 
 export default {
   props: {
@@ -29,9 +30,9 @@ export default {
       type: String,
       default: '187px',
     },
-    method: {
+    methodInitialize: {
       type: Function,
-      default: () => false,
+      default: null,
     },
     methodAllowance: {
       type: Function,
@@ -54,7 +55,6 @@ export default {
       getActiveBalance: 'Wallet/getActiveBalance',
       getSelectedToken: 'Wallet/getSelectedToken',
       getUserAddress: 'Wallet/getUserAddress',
-      getAllowance: 'Wallet/getAllowance',
       getRecipient: 'Wallet/getRecipient',
     }),
     ...mapActions({
@@ -69,20 +69,13 @@ export default {
   },
   methods: {
     async handleClick() {
-      if (await this.method) {
-        this.method(true);
-      }
-      if (this.methodAllowance && this.IsWeb3Initialized) {
-        console.log(this.getUserAddress);
-        console.log(this.getRecipient, 'reci');
-        this.methodAllowance(this.getUserAddress, this.getRecipient);
-      }
+      return null;
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .base-btn {
   color: #FFFFFF;
   padding: 0 16px;

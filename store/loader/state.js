@@ -1,5 +1,5 @@
 export default () => ({
-  isLoading: true,
+  isLoading: false,
   loaderStatusText: 'Loading',
   isBgHider: true,
 });

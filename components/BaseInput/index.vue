@@ -3,7 +3,8 @@
     :style="baseInputStyles"
     :type="inputType"
     :name="inputName"
-    :value="valueIn"
+    :placeholder="valueIn"
+    :step="step"
     @change="handleInout($event)"
   >
 </template>
@@ -40,6 +41,14 @@ export default {
       type: String,
       default: '',
     },
+    step: {
+      type: String,
+      default: '',
+    },
+    value: {
+      type: String,
+      default: '0.00',
+    },
     method: {
       type: Function,
       default: () => {},
@@ -52,10 +61,13 @@ export default {
           'background-color': this.bgColor,
           height: `${this.height}`,
           width: `${this.width}`,
+          required: `${this.required}`,
+          placeholder: `${this.value}`,
           'font-family': 'Roboto',
           'font-weight': 400,
           'font-size': `${this.fontsize}`,
           'text-indent': '10px',
+          border: '1px',
         },
       ];
     },

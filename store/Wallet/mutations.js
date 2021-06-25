@@ -23,10 +23,16 @@ export default {
   addActiveSymbol(state, payload) {
     state.activeSymbol = payload;
   },
+  addDecimal(state, payload) {
+    state.decimal = payload;
+  },
   AddAllowance(state, payload) {
     state.allowance = payload;
   },
   addUserAddress(state, payload) {
     state.userAddress = payload;
+  },
+  addTransfer(state, payload) {
+    state.transactionHistory.push(payload);
   },
 };

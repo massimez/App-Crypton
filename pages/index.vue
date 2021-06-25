@@ -1,5 +1,12 @@
 <template>
   <div class="example">
+    <ModalNotification
+      v-if="showModal"
+      :text-header="textHeader"
+      :text-body="textBody"
+      :text-footer="textFooter"
+      @close="showModal = false"
+    />
     <div class="example__content">
       <div class="example__title" />
       <div>
@@ -7,10 +14,12 @@
         <div class="flex flex--space mb-60">
           <BaseInput
             class=""
-            input-type="text"
+            input-type="number"
             input-name="amount"
             width="80%"
             :method="setAmount"
+            step="0.01"
+            value="0.00"
           />
           <BaseSelectCM
             name="SyCm"
@@ -24,6 +33,7 @@
           input-type="text"
           input-name="address"
           :method="setRecipient"
+          :required="true"
         />
         <div class="flex mt-32">
           <span class="mr-12">
@@ -35,30 +45,33 @@
         </div>
         <div class="flex mt-32">
           <p class="mr-12">
-            Your allowance:
+            Your allowance: {{ getAllowance }}
           </p>
         </div>
         <div class="flex mt-32">
-          <SecondBtn
-            class="ml-32"
-            btn-text="Get allowance"
-            width="187px"
-            height="50px"
-            :method-allowance="setAllowance"
-          />
-          <SecondBtn
-            class="ml-32"
-            btn-text="Approve"
-            width="187px"
-            height="50px"
-          />
-          <SecondBtn
-            class="ml-32"
-            btn-text="Transfer"
-            width="187px"
-            height="50px"
-          />
+          <button
+            class="base-btn layout__btn-style mr-32"
+            @click="handleGetAllowance"
+          >
+            Get allowance
+          </button>
+          <button
+            class="base-btn layout__btn-style mr-32"
+            @click="handleApprove"
+          >
+            Approve
+          </button>
+          <button
+            class="base-btn layout__btn-style "
+            @click="handleTransfer"
+          >
+            Transfer
+          </button>
         </div>
+        <div class="mt-32 mb-8">
+          <h1>Your Transactions</h1>
+        </div>
+        <div class="mt-2 flex " />
       </div>
     </div>
   </div>
@@ -66,10 +79,15 @@
 <script>
 
 import { mapGetters, mapActions } from 'vuex';
+import { getAllowanceWeb3, setApproveWeb4, setTransferweb4 } from '~/utils/web3';
 
 export default {
   data() {
     return {
+      showModal: false,
+      textHeader: '',
+      textBody: '',
+      textFooter: '',
     };
   },
   computed: {
@@ -81,6 +99,9 @@ export default {
       getActiveSymbol: 'Wallet/getActiveSymbol',
       getUserAddress: 'Wallet/getUserAddress',
       getAllowance: 'Wallet/getAllowance',
+      getRecipient: 'Wallet/getRecipient',
+      getAmount: 'Wallet/getAmount',
+      decimal: 'Wallet/getDecimal',
     }),
   },
   mounted() {
@@ -95,13 +116,60 @@ export default {
       setAmount: 'Wallet/setAmount',
       setRecipient: 'Wallet/setRecipient',
       setAllowance: 'Wallet/setAllowance',
+      setLoading: 'loader/setLoading',
+      setTransfer: 'Wallet/setTransfer',
+      setApprove: 'Wallet/setApprove',
     }),
-
+    async handleGetAllowance() {
+      try {
+        if (this.IsWeb3Initialized) {
+          console.log(this.getSelectedToken, this.getRecipient, 'getAllo');
+          const allowance = await getAllowanceWeb3(this.getSelectedToken, this.getRecipient);
+          // await this.setAllowance(allowance);
+          console.log(allowance, 'Allowance');
+          if (allowance) this.setAllowance(allowance);
+        } else {
+          this.showModal = true;
+          this.textBody = 'Error';
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async handleTransfer() {
+      console.log(this.getAmount, this.decimal, this.getRecipient, 'handletr');
+      const transfer = await setTransferweb4(this.getSelectedToken, this.getAmount, this.decimal, this.getRecipient);
+      if (transfer) {
+        this.showModal = true;
+        this.textHeader = 'Succes';
+        this.textBody = 'Successful operation';
+      } else {
+        this.showModal = true;
+        this.textHeader = 'Error';
+        this.textBody = 'Failed operation';
+      }
+    },
+    async handleApprove() {
+      console.log(this.getSelectedToken, this.getAmount, this.decimal, this.getRecipient, 'handlApprove');
+      const transfer = await setApproveWeb4(this.getSelectedToken, this.getAmount, this.decimal, this.getRecipient);
+      if (transfer) {
+        this.showModal = true;
+        this.textHeader = 'Succes';
+        this.textBody = 'Successful operation';
+      } else {
+        this.showModal = true;
+        this.textHeader = 'Error';
+        this.textBody = 'Failed operation';
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.transaction {
+
+}
 .example {
   @include container;
   background: #ffffff;
@@ -125,6 +193,12 @@ export default {
     &__title {
       font-size: 18px;
     }
+  }
+  .layout__btn-style{
+    background-color: #63BCD8;
+    height:50px ;
+    width:187px ;
+    color: white;
   }
 }
 </style>

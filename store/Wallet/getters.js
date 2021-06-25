@@ -7,4 +7,6 @@ export default {
   getUserAddress: (state) => state.userAddress,
   getAllowance: (state) => state.allowance,
   getActiveSymbol: (state) => state.activeSymbol,
+  getAmount: (state) => state.amount,
+  getDecimal: (state) => state.decimal,
 };

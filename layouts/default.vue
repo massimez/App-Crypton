@@ -3,21 +3,19 @@
     <div class="primary__template template">
       <div class="template__header ">
         <div class="flex flex--end w-100 mt-40 ">
-          <SecondBtn
+          <button
             v-if="IsWeb3Initialized"
-            class="ml-auto"
-            btn-text="Disconnect wallet"
-            width="187px"
-            height="50px"
-          />
-          <SecondBtn
+            class="base-btn layout__btn-style ml-auto"
+          >
+            Disconnect wallet
+          </button>
+          <button
             v-else
-            class="ml-auto"
-            btn-text="Connect wallet"
-            width="187px"
-            height="50px"
-            :method="setWeb3Initialized"
-          />
+            class="base-btn layout__btn-style ml-auto"
+            @click="connectWallet"
+          >
+            Connect wallet
+          </button>
         </div>
       </div>
       <div class="template__content">
@@ -43,15 +41,22 @@ export default {
   },
   mounted() {
     // fake loader
-    this.SetLoader(true);
-    setTimeout(() => {
-      this.SetLoader(false);
-    }, 1000);
+    // this.SetLoader(true);
+    // setTimeout(() => {
+    //   this.SetLoader(false);
+    // }, 1000);
   },
   methods: {
     ...mapActions({
       setWeb3Initialized: 'Wallet/setWeb3Initialized',
     }),
+    connectWallet() {
+      this.setWeb3Initialized(true);
+      this.SetLoader(true);
+      setTimeout(() => {
+        this.SetLoader(false);
+      }, 2000);
+    },
   },
 };
 </script>
@@ -77,6 +82,12 @@ export default {
     flex-direction: column;
     align-items: center;
     position: relative;
+  }
+  .layout__btn-style{
+  background-color: #63BCD8;
+  height:50px ;
+    width:187px ;
+    color: white;
   }
 }
 </style>
