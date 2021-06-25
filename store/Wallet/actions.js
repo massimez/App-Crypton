@@ -6,35 +6,38 @@ import { tokens } from '~/utils/Tokens';
 
 // eslint-disable-next-line import/prefer-default-export
 export default {
-  async setWeb3Initialized({ commit }, payload) {
-    const userAdsress = await initWeb3Wallet();
+  async setWeb3Initialized({ commit }, { isInitialised }) {
+    // Initialization
     const resSymbol = [];
-    if (payload) {
-      tokens.map(async (token, i) => {
-        const decimal = await getDecimal(token);
+    let userAddress;
+    let firstBalance;
+    let firstSymbol;
+    let decimal;
+    await Promise.all([
+      userAddress = await initWeb3Wallet(),
+    ]);
+    if (isInitialised) {
+      await Promise.all(tokens.map(async (token, i) => {
+        decimal = await getDecimal(token);
         const balanceBigNumber = new BigNumber(await getBalance(token)).shiftedBy(+decimal).toString();
         resSymbol[i] = {
-          Token: token,
+          token,
           symbol: await getSym(token),
           balance: balanceBigNumber,
         };
         return null;
-      });
-      console.log(resSymbol);
+      }));
+      console.log(resSymbol, 'ssss');
     }
-    commit('addWeb3Initialized', payload);
-    // Initialization
-    const firstBalance = await getBalance(tokens[0]);
-    const firstSymbol = await getSym(tokens[0]);
-    const decimal = await getDecimal(tokens[0]);
-    setTimeout(async () => {
-      commit('addAllCryptoSymbols', resSymbol);
-      commit('addUserAddress', userAdsress);
-      commit('addActiveBalance', firstBalance);
-      commit('addActiveSymbol', firstSymbol);
-      commit('addSelectedToken', tokens[0]);
-      commit('addDecimal', decimal);
-    }, 1000);
+    commit('addWeb3Initialized', isInitialised);
+    await Promise.all([firstBalance = await getBalance(tokens[0]), firstSymbol = await getSym(tokens[0]), decimal = await getDecimal(tokens[0])]);
+    commit('addAllCryptoSymbols', resSymbol);
+    commit('addUserAddress', userAddress);
+    commit('addActiveBalance', firstBalance);
+    commit('addActiveSymbol', firstSymbol);
+    commit('addSelectedToken', tokens[0]);
+    commit('addDecimal', decimal);
+    return true;
   },
   async setSelectedToken({ commit }, payload) {
     commit('addSelectedToken', payload);
@@ -44,18 +47,6 @@ export default {
   async setActiveBalance({ commit }, payload) {
     const balance = await getBalance(payload);
     commit('addActiveBalance', balance);
-  },
-  setAllCryptoSymbols({ commit }) {
-    const resSymbol = [];
-    const resSymbolToken = {};
-    tokens.map(async (token, i) => {
-      resSymbol[i] = {
-        Token: token,
-        symbol: await getSym(token),
-      };
-      return null;
-    });
-    commit('addAllCryptoSymbols', resSymbol);
   },
   setRecipient({ commit }, payload) {
     commit('addRecipient', payload);

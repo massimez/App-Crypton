@@ -21,9 +21,9 @@
       <div class="template__content">
         <nuxt />
       </div>
-      <div class="template__footer">
-        Footer
-      </div>
+      <!--      <div class="template__footer">-->
+      <!--        Footer-->
+      <!--      </div>-->
     </div>
     <base-modal-container />
     <loader-screen />
@@ -40,22 +40,17 @@ export default {
     }),
   },
   mounted() {
-    // fake loader
-    // this.SetLoader(true);
-    // setTimeout(() => {
-    //   this.SetLoader(false);
-    // }, 1000);
+
   },
   methods: {
     ...mapActions({
       setWeb3Initialized: 'Wallet/setWeb3Initialized',
     }),
-    connectWallet() {
-      this.setWeb3Initialized(true);
+    async connectWallet() {
       this.SetLoader(true);
-      setTimeout(() => {
+      if (await this.setWeb3Initialized({ isInitialised: true })) {
         this.SetLoader(false);
-      }, 2000);
+      }
     },
   },
 };
