@@ -3,25 +3,15 @@ import BigNumber from 'bignumber.js';
 import Web4 from '@cryptonteam/web4';
 import { output, error } from '~/utils/index';
 import { ERC20 } from './abis';
+import { tokens } from '~/utils/Tokens';
 
 let web3Wallet;
 let userAddress;
 let chainId;
 let web4 = new Web4();
 
-const contractMethod = async (obj) => {
-  try {
-    const Contract = new web3Wallet.eth.Contract(obj.contract.abi, obj.contract.address);
-    return await Contract.methods[obj.method].apply(this, obj.params).call();
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-};
-
 const fetchContractData = async (method, abi, address, params) => {
   try {
-    // if (method === 'allowance') console.log(address, 'fetch');
     const Contract = new web3Wallet.eth.Contract(abi, address);
     return await Contract.methods[method].apply(this, params).call();
   } catch (err) {
@@ -44,10 +34,9 @@ export const initWeb3Wallet = async () => {
     await web4.setProvider(ethereum, userAddress);
     if (+chainId !== 4) {
       // TODO switch network request
-      console.log('Change network');
       return error(500, 'current site work in rinkeby', chainId);
     }
-    return userAddress;
+    return output(userAddress);
   } catch (err) {
     console.log(err);
     return error(500, 'err', err);
@@ -66,9 +55,7 @@ export async function getSym(addressToken) {
 export async function getBalance(addressToken) {
   try {
     const balance = await fetchContractData('balanceOf', ERC20, addressToken, [userAddress]);
-    console.log(balance);
     const decimal = await fetchContractData('decimals', ERC20, addressToken);
-    console.log(decimal);
     return balance;
   } catch (e) {
     console.log(e);
@@ -78,7 +65,6 @@ export async function getBalance(addressToken) {
 export async function getDecimal(addressToken) {
   try {
     const decimal = await fetchContractData('decimals', ERC20, addressToken);
-    console.log(decimal);
     return decimal;
   } catch (e) {
     console.log(e);
@@ -100,14 +86,10 @@ export const createInst = async (abi, address) => {
   return await abs.getInstance(address);
 };
 export async function setTransferweb4(addressToken, amount, decimal, recipient) {
-  console.log(addressToken, amount, decimal, recipient, userAddress, 'transfer');
   try {
     const instance = await createInst(ERC20, addressToken);
     const amountInBigNumber = new BigNumber(amount).shiftedBy(+decimal).toString();
-    console.log(await instance.symbol(), 'symbol');
-    console.log(await instance.decimals(), 'decimals');
     const transfer = await instance.transfer(recipient, amountInBigNumber);
-    console.log(transfer, 'transfer');
     return true;
   } catch (e) {
     console.log(e);
@@ -115,7 +97,6 @@ export async function setTransferweb4(addressToken, amount, decimal, recipient) 
   }
 }
 export async function setApproveWeb4(addressToken, amount, decimal, recipient) {
-  console.log(addressToken, amount, decimal, recipient, 'approve');
   try {
     const instance = await createInst(ERC20, addressToken);
     const amountInBigNumber = new BigNumber(amount).shiftedBy(+decimal).toString();
@@ -125,4 +106,17 @@ export async function setApproveWeb4(addressToken, amount, decimal, recipient) {
     console.log(e);
     return false;
   }
+}
+
+export async function getTransactionsWeb3(addressToken) {
+  const contract = new web3Wallet.eth.Contract(ERC20, addressToken);
+  let res;
+  await contract.getPastEvents('Transfer', {
+    fromBlock: 0,
+    toBlock: 'latest',
+    filter: { from: userAddress },
+  }, (err, event) => {
+    res = event;
+  });
+  return res;
 }

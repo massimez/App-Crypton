@@ -8,6 +8,7 @@ export default () => ({
   amount: 0,
   allowance: '',
   userAddress: '',
-  transactionHistory: [],
+  transactionsHistory: [],
   decimal: '',
+  modalErr: null,
 });

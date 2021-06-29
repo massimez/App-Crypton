@@ -35,8 +35,8 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   computed: {
     ...mapGetters({
-      getAllCryptoSymbols: 'Wallet/getAllCryptoSymbols',
-      IsWeb3Initialized: 'Wallet/getIsWeb3Initialized',
+      getAllCryptoSymbols: 'wallet/getAllCryptoSymbols',
+      IsWeb3Initialized: 'wallet/getIsWeb3Initialized',
     }),
   },
   mounted() {
@@ -44,13 +44,15 @@ export default {
   },
   methods: {
     ...mapActions({
-      setWeb3Initialized: 'Wallet/setWeb3Initialized',
+      setWeb3Initialized: 'wallet/setWeb3Initialized',
+      setHistory: 'wallet/setTransferHistory',
     }),
     async connectWallet() {
       this.SetLoader(true);
       if (await this.setWeb3Initialized({ isInitialised: true })) {
         this.SetLoader(false);
       }
+      await this.setHistory();
     },
   },
 };
@@ -58,7 +60,6 @@ export default {
 <style lang="scss" scoped>
 .primary {
   height: 100vh;
-  overflow-y: auto;
   margin-right: 15%;
   margin-left: 15%;
   &__template {
@@ -71,7 +72,6 @@ export default {
 .template {
   height: 100%;
   min-height: 100vh;
-  overflow: auto;
   &__content {
     display: flex;
     flex-direction: column;

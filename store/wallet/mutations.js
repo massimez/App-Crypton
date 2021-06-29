@@ -6,10 +6,18 @@ export default {
     state.selectedToken = payload;
   },
   addAllCryptoSymbols(state, payload) {
-    // eslint-disable-next-line array-callback-return
     payload.map((item) => {
       state.AllCryptoSymbols.push(item);
+      return null;
     });
+  },
+  addTransfersHistory(state, payload) {
+    console.log(payload);
+    state.transactionsHistory.push(payload);
+    return null;
+  },
+  cleanTransferHistory(state) {
+    state.transactionsHistory = [];
   },
   addActiveBalance(state, payload) {
     state.activeBalance = payload;
@@ -32,7 +40,7 @@ export default {
   addUserAddress(state, payload) {
     state.userAddress = payload;
   },
-  addTransfer(state, payload) {
-    state.transactionHistory.push(payload);
+  addModalErr(state, payload) {
+    state.modalErr = payload;
   },
 };

@@ -31,11 +31,11 @@ export default {
     },
     height: {
       type: String,
-      default: '50px',
+      default: '70px',
     },
     width: {
       type: String,
-      default: '120px',
+      default: '15%',
     },
   },
   data() {
@@ -60,8 +60,8 @@ export default {
       ];
     },
     ...mapGetters({
-      getAllCryptoSymbols: 'Wallet/getAllCryptoSymbols',
-      IsWeb3Initialized: 'Wallet/getIsWeb3Initialized',
+      getAllCryptoSymbols: 'wallet/getAllCryptoSymbols',
+      IsWeb3Initialized: 'wallet/getIsWeb3Initialized',
     }),
   },
   mounted() {
@@ -70,18 +70,18 @@ export default {
   },
   methods: {
     ...mapActions({
-      setWeb3Initialized: 'Wallet/setWeb3Initialized',
-      setAllCryptoSymbols: 'Wallet/setAllCryptoSymbols',
-      setSelectedToken: 'Wallet/setSelectedToken',
-      setActiveBalance: 'Wallet/setActiveBalance',
-      setActiveSymbol: 'Wallet/setActiveSymbol',
+      setWeb3Initialized: 'wallet/setWeb3Initialized',
+      setAllCryptoSymbols: 'wallet/setAllCryptoSymbols',
+      setSelectedToken: 'wallet/setSelectedToken',
+      setActiveBalance: 'wallet/setActiveBalance',
+      setActiveSymbol: 'wallet/setActiveSymbol',
     }),
     handleSelect(event) {
       this.getAllCryptoSymbols.forEach((symbol, index) => {
         if (index === parseInt(event.target.value, 10)) {
-          this.setActiveBalance(symbol.Token);
+          this.setActiveBalance(symbol.token);
           this.setActiveSymbol(symbol.symbol);
-          this.setSelectedToken(symbol.Token);
+          this.setSelectedToken(symbol.token);
         }
       });
     },

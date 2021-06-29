@@ -9,4 +9,6 @@ export default {
   getActiveSymbol: (state) => state.activeSymbol,
   getAmount: (state) => state.amount,
   getDecimal: (state) => state.decimal,
+  getTransfersHistory: (state) => state.transactionsHistory,
+  getModalErr: (state) => state.modalErr,
 };
