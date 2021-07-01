@@ -11,11 +11,23 @@ export default {
       return null;
     });
   },
-  addTransfersHistory(state, payload) {
+  addTransactionsHistory(state, payload) {
     const transaction = {
       token: payload.address.toLowerCase(),
       blockNumber: payload.blockNumber,
       event: payload.event,
+      to: payload.returnValues[1],
+      value: payload.returnValues.value,
+      transactionHash: payload.transactionHash,
+    };
+    state.transactionsHistory.push(transaction);
+  },
+  addReceivedTransaction(state, payload) {
+    const transaction = {
+      token: payload.address.toLowerCase(),
+      blockNumber: payload.blockNumber,
+      event: payload.event,
+      from: payload.returnValues[0],
       to: payload.returnValues[1],
       value: payload.returnValues.value,
       transactionHash: payload.transactionHash,
@@ -28,7 +40,7 @@ export default {
   addAmount(state, payload) {
     state.amount = payload;
   },
-  AddAllowance(state, payload) {
+  addAllowance(state, payload) {
     state.allowance = payload;
   },
   addUserAddress(state, payload) {

@@ -6,11 +6,10 @@ import {
   initWeb3Wallet,
   initContract,
 } from '~/utils/web3';
-import { tokens } from '~/utils/Tokens';
-import { ERC20 } from '~/utils/abis';
+import { tokens } from '~/utils/tokens';
 
 export default {
-  async setWeb3Initialized({ commit }, { isInitialised }) {
+  async initializeWeb3({ commit }, { isInitialised }) {
     const resSymbols = [];
     let resInitialization;
     const fetchTokensData = async () => {
@@ -48,17 +47,19 @@ export default {
         fromBlock: 0,
         filter: { from: payload.userAddress },
       }, (err, event) => {
-        if (token.toLowerCase() === event.address.toLowerCase()) {
-          commit('addTransfersHistory', event);
-        }
+        commit('addTransactionsHistory', event);
+      });
+      await contract.events.Transfer({
+        fromBlock: 0,
+        filter: { to: payload.userAddress },
+      }, (err, event) => {
+        commit('addReceivedTransaction', event);
       });
       await contract.events.Approval({
         fromBlock: 0,
         filter: { owner: payload.userAddress },
       }, (err, event) => {
-        if (token.toLowerCase() === event.address.toLowerCase()) {
-          commit('addTransfersHistory', event);
-        }
+        commit('addTransactionsHistory', event);
       });
     });
   },
@@ -71,17 +72,7 @@ export default {
   setAmount({ commit }, payload) {
     commit('addAmount', payload);
   },
-  setActiveSymbol({ commit }, payload) {
-    commit('addActiveSymbol', payload);
-  },
   setAllowance({ commit }, payload) {
-    commit('AddAllowance', payload);
+    commit('addAllowance', payload);
   },
-  setTransfer({ commit }, payload) {
-    commit('addTransfer', payload);
-  },
-  setApprove({ commit }, payload) {
-    commit('addApprove', payload);
-  },
-
 };

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import Web4 from '@cryptonteam/web4';
 import { output, error } from '~/utils/index';
 import { ERC20 } from './abis';
-import { tokens } from '~/utils/Tokens';
+import { tokens } from '~/utils/tokens';
 
 let web3Wallet;
 let userAddress;
@@ -95,7 +95,7 @@ export const createInst = async (abi, address) => {
   return await abs.getInstance(address);
 };
 
-export async function setTransferweb4(addressToken, amount, decimal, recipient) {
+export async function sendTransferWeb4(addressToken, amount, decimal, recipient) {
   try {
     console.log(addressToken, amount, decimal, recipient);
     const instance = await createInst(ERC20, addressToken);
@@ -108,7 +108,7 @@ export async function setTransferweb4(addressToken, amount, decimal, recipient) 
     return false;
   }
 }
-export async function setApproveWeb4(addressToken, amount, decimal, recipient) {
+export async function sendApproveWeb4(addressToken, amount, decimal, recipient) {
   try {
     const instance = await createInst(ERC20, addressToken);
     const amountInBigNumber = new BigNumber(amount).shiftedBy(+decimal).toString();

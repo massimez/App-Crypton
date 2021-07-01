@@ -5,7 +5,7 @@
     @change="handleSelect($event)"
   >
     <option
-      v-for="(symbol, index) in getAllCryptoSymbols"
+      v-for="(symbol, index) in getAllTokensData"
       :key="index"
       :value="index"
       :selected="index === 0"
@@ -19,7 +19,7 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'BaseSelectCM',
+  name: 'SelectCryptoMoney',
   props: {
     name: {
       type: String,
@@ -38,12 +38,6 @@ export default {
       default: '15%',
     },
   },
-  data() {
-    return {
-      indexActiveToken: '',
-    };
-  },
-
   computed: {
     BaseSelectCMStyles() {
       return [
@@ -60,33 +54,16 @@ export default {
       ];
     },
     ...mapGetters({
-      getAllCryptoSymbols: 'wallet/getAllCryptoSymbols',
-      IsWeb3Initialized: 'wallet/getIsWeb3Initialized',
+      getAllTokensData: 'wallet/getAllTokensData',
     }),
-  },
-  mounted() {
-    // console.log(this.getAllCryptoSymbols);
-
   },
   methods: {
     ...mapActions({
-      setWeb3Initialized: 'wallet/setWeb3Initialized',
-      setAllCryptoSymbols: 'wallet/setAllCryptoSymbols',
       setSelectedToken: 'wallet/setSelectedToken',
-      setActiveBalance: 'wallet/setActiveBalance',
-      setActiveSymbol: 'wallet/setActiveSymbol',
     }),
     handleSelect(event) {
-      this.getAllCryptoSymbols.forEach((symbol, index) => {
-        if (index === parseInt(event.target.value, 10)) {
-          this.setSelectedToken(symbol);
-        }
-      });
+      this.setSelectedToken(this.getAllTokensData[event.target.value]);
     },
   },
 };
 </script>
-
-<style scoped>
-
-</style>

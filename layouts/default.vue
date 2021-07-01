@@ -35,8 +35,7 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   computed: {
     ...mapGetters({
-      getAllCryptoSymbols: 'wallet/getAllCryptoSymbols',
-      IsWeb3Initialized: 'wallet/getIsWeb3Initialized',
+      IsWeb3Initialized: 'wallet/IsWeb3Initialized',
       getUserAddress: 'wallet/getUserAddress',
     }),
   },
@@ -45,12 +44,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      setWeb3Initialized: 'wallet/setWeb3Initialized',
+      initializeWeb3: 'wallet/initializeWeb3',
       setTransactionsHistory: 'wallet/setTransactionsHistory',
     }),
     async connectWallet() {
       this.SetLoader(true);
-      if (await this.setWeb3Initialized({ isInitialised: true })) {
+      if (await this.initializeWeb3({ isInitialised: true })) {
         this.SetLoader(false);
       }
       await this.setTransactionsHistory({ userAddress: this.getUserAddress });

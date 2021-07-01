@@ -26,8 +26,8 @@
             @change="handleAmountInput"
           >
 
-          <BaseSelectCM
-            name="SyCm"
+          <SelectCryptoMoney
+            name="SymbolCryptoMoney"
           />
         </div>
         <label>Address:</label>
@@ -48,7 +48,7 @@
         </div>
         <div class="flex mt-32">
           <p class="mr-12">
-            Your allowance: {{ getAllowance }}
+            Your allowance: {{ readBigNumber(getAllowance,getSelectedToken.decimal) }}
           </p>
         </div>
         <div class="flex mt-32">
@@ -75,22 +75,24 @@
           <h1>Your Transactions</h1>
         </div>
         <div
-          v-for="(item, index) in transfersHistory"
+          v-for="(element, index) in transfersHistory"
           :key="index"
-          style="background-color: #F3F5FA;height: 60px;width: 100%;display: grid;grid-template-columns: 1fr 1fr 1fr;align-items: center;padding-left: 10px;padding-right: 10px;justify-items: start"
+          style="background-color: #F3F5FA;height: 60px;width: 100%;display: grid;
+          grid-template-columns: 1fr 1fr 1fr;align-items: center;padding-left: 10px;padding-right: 10px;justify-items: start"
           class="mt-2"
         >
-          <p>{{ index }}-{{ item.event }}--{{ item.blockNumber }}</p>
-          <p>{{ item.to }}</p>
+          <p>{{ index }}-{{ element.event }}--{{ element.blockNumber }}</p>
+          <p v-if="element.to.toLowerCase() === getUserAddress.toLowerCase()">
+            {{ element.from }}
+          </p>
+          <p v-else>
+            {{ element.to }}
+          </p>
           <div style="justify-self: end">
-            <div
-              v-for="(cryptoData, i) in getAllCryptoSymbols"
-              :key="i"
-            >
-              <p v-if="cryptoData.token === item.token">
-                {{ fromBigNumber(item.value, cryptoData.decimal) }} {{ cryptoData.symbol }}
-              </p>
-            </div>
+            <p>
+              <span v-if="element.to.toLowerCase() === getUserAddress.toLowerCase()">+</span>
+              {{ readBigNumber(element.value, getTokenData(element.token).decimal) }} {{ getTokenData(element.token).symbol }}
+            </p>
           </div>
         </div>
       </div>
@@ -102,10 +104,12 @@
 import { mapGetters, mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 import {
-  getAllowanceWeb3, setApproveWeb4, setTransferweb4,
+  getAllowanceWeb3, sendTransferWeb4, sendApproveWeb4,
 } from '~/utils/web3';
+import SelectCryptoMoney from '~/components/SelectSymbolCryptoMoney';
 
 export default {
+  components: { SelectCryptoMoney },
   data() {
     return {
       showModal: false,
@@ -117,8 +121,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getAllCryptoSymbols: 'wallet/getAllCryptoSymbols',
-      IsWeb3Initialized: 'wallet/getIsWeb3Initialized',
+      getAllTokensData: 'wallet/getAllTokensData',
+      IsWeb3Initialized: 'wallet/IsWeb3Initialized',
       getSelectedToken: 'wallet/getSelectedToken',
       getUserAddress: 'wallet/getUserAddress',
       getAllowance: 'wallet/getAllowance',
@@ -129,23 +133,23 @@ export default {
     }),
   },
   mounted() {
-    // this.setAllCryptoSymbols();
-    console.log(this.getAllCryptoSymbols);
   },
   methods: {
     ...mapActions({
-      setWeb3Initialized: 'wallet/setWeb3Initialized',
+      initializeWeb3: 'wallet/initializeWeb3',
       setSelectedToken: 'wallet/setSelectedToken',
       setAmount: 'wallet/setAmount',
       setRecipient: 'wallet/setRecipient',
       setAllowance: 'wallet/setAllowance',
       setLoading: 'loader/setLoading',
-      setTransfer: 'wallet/setTransfer',
       setApprove: 'wallet/setApprove',
-      setHistory: 'wallet/setTransferHistory',
     }),
-    fromBigNumber(value, decimal) {
-      return new BigNumber(value).shiftedBy(-decimal).toString();
+    readBigNumber(value, decimal) {
+      if (value && decimal) return new BigNumber(value).shiftedBy(-decimal).toString();
+      return '-';
+    },
+    getTokenData(token) {
+      return this.getAllTokensData.find((a) => a.token === token);
     },
     async handleGetAllowance() {
       try {
@@ -170,7 +174,7 @@ export default {
     async handleTransfer() {
       this.setLoading(true);
       console.log(this.getAmount, this.getSelectedToken.decimal, this.getRecipient, 'handletr');
-      const transfer = await setTransferweb4(this.getSelectedToken.token, this.getAmount, this.getSelectedToken.decimal, this.getRecipient);
+      const transfer = await sendTransferWeb4(this.getSelectedToken.token, this.getAmount, this.getSelectedToken.decimal, this.getRecipient);
       if (transfer) {
         this.setLoading(false);
         this.showModal = true;
@@ -186,7 +190,7 @@ export default {
     async handleApprove() {
       this.setLoading(true);
       console.log(this.getSelectedToken, this.getAmount, this.decimal, this.getRecipient, 'handlApprove');
-      const transfer = await setApproveWeb4(this.getSelectedToken.token, this.getAmount, this.getSelectedToken.decimal, this.getRecipient);
+      const transfer = await sendApproveWeb4(this.getSelectedToken.token, this.getAmount, this.getSelectedToken.decimal, this.getRecipient);
       if (transfer) {
         this.setLoading(false);
         this.showModal = true;
@@ -219,21 +223,6 @@ export default {
   }
   &__title {
     font-size: 60px;
-  }
-  @include _1199 {
-    &__title {
-      font-size: 40px;
-    }
-  }
-  @include _767 {
-    &__title {
-      font-size: 30px;
-    }
-  }
-  @include _575 {
-    &__title {
-      font-size: 18px;
-    }
   }
   .layout__btn-style{
     background-color: #63BCD8;
