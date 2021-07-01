@@ -20,7 +20,16 @@ const fetchContractData = async (method, abi, address, params) => {
   }
 };
 
-// eslint-disable-next-line import/prefer-default-export
+export const initContract = (tokenAddress) => {
+  try {
+    const Contract = new web3Wallet.eth.Contract(ERC20, tokenAddress);
+    return Contract;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 export const initWeb3Wallet = async () => {
   try {
     const { ethereum } = window; // ethereum - metamask
@@ -42,8 +51,8 @@ export const initWeb3Wallet = async () => {
     return error(500, 'err', err);
   }
 };
-// eslint-disable-next-line import/prefer-default-export
-export async function getSym(addressToken) {
+
+export async function getSymbol(addressToken) {
   try {
     const symbol = await fetchContractData('symbol', ERC20, addressToken);
     return symbol;
@@ -71,7 +80,7 @@ export async function getDecimal(addressToken) {
     return e;
   }
 }
-// eslint-disable-next-line no-shadow
+
 export async function getAllowanceWeb3(addressToken, recipientAddress) {
   try {
     const allowance = await fetchContractData('allowance', ERC20, addressToken, [userAddress, recipientAddress]);
@@ -85,11 +94,14 @@ export const createInst = async (abi, address) => {
   const abs = web4.getContractAbstraction(abi);
   return await abs.getInstance(address);
 };
+
 export async function setTransferweb4(addressToken, amount, decimal, recipient) {
   try {
+    console.log(addressToken, amount, decimal, recipient);
     const instance = await createInst(ERC20, addressToken);
     const amountInBigNumber = new BigNumber(amount).shiftedBy(+decimal).toString();
     const transfer = await instance.transfer(recipient, amountInBigNumber);
+    console.log(transfer);
     return true;
   } catch (e) {
     console.log(e);
@@ -100,23 +112,10 @@ export async function setApproveWeb4(addressToken, amount, decimal, recipient) {
   try {
     const instance = await createInst(ERC20, addressToken);
     const amountInBigNumber = new BigNumber(amount).shiftedBy(+decimal).toString();
-    const approve = await instance.approve(recipient, amount);
+    await instance.approve(recipient, amountInBigNumber);
     return true;
   } catch (e) {
     console.log(e);
     return false;
   }
-}
-
-export async function getTransactionsWeb3(addressToken) {
-  const contract = new web3Wallet.eth.Contract(ERC20, addressToken);
-  let res;
-  await contract.getPastEvents('Transfer', {
-    fromBlock: 0,
-    toBlock: 'latest',
-    filter: { from: userAddress },
-  }, (err, event) => {
-    res = event;
-  });
-  return res;
 }

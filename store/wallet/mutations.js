@@ -5,34 +5,28 @@ export default {
   addSelectedToken(state, payload) {
     state.selectedToken = payload;
   },
-  addAllCryptoSymbols(state, payload) {
+  addAllTokensData(state, payload) {
     payload.map((item) => {
-      state.AllCryptoSymbols.push(item);
+      state.allTokensData.push(item);
       return null;
     });
   },
   addTransfersHistory(state, payload) {
-    console.log(payload);
-    state.transactionsHistory.push(payload);
-    return null;
-  },
-  cleanTransferHistory(state) {
-    state.transactionsHistory = [];
-  },
-  addActiveBalance(state, payload) {
-    state.activeBalance = payload;
+    const transaction = {
+      token: payload.address.toLowerCase(),
+      blockNumber: payload.blockNumber,
+      event: payload.event,
+      to: payload.returnValues[1],
+      value: payload.returnValues.value,
+      transactionHash: payload.transactionHash,
+    };
+    state.transactionsHistory.push(transaction);
   },
   addRecipient(state, payload) {
     state.recipient = payload;
   },
   addAmount(state, payload) {
     state.amount = payload;
-  },
-  addActiveSymbol(state, payload) {
-    state.activeSymbol = payload;
-  },
-  addDecimal(state, payload) {
-    state.decimal = payload;
   },
   AddAllowance(state, payload) {
     state.allowance = payload;

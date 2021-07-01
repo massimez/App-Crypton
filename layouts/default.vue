@@ -37,6 +37,7 @@ export default {
     ...mapGetters({
       getAllCryptoSymbols: 'wallet/getAllCryptoSymbols',
       IsWeb3Initialized: 'wallet/getIsWeb3Initialized',
+      getUserAddress: 'wallet/getUserAddress',
     }),
   },
   mounted() {
@@ -45,14 +46,14 @@ export default {
   methods: {
     ...mapActions({
       setWeb3Initialized: 'wallet/setWeb3Initialized',
-      setHistory: 'wallet/setTransferHistory',
+      setTransactionsHistory: 'wallet/setTransactionsHistory',
     }),
     async connectWallet() {
       this.SetLoader(true);
       if (await this.setWeb3Initialized({ isInitialised: true })) {
         this.SetLoader(false);
       }
-      await this.setHistory();
+      await this.setTransactionsHistory({ userAddress: this.getUserAddress });
     },
   },
 };

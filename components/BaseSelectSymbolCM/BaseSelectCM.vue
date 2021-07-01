@@ -79,9 +79,7 @@ export default {
     handleSelect(event) {
       this.getAllCryptoSymbols.forEach((symbol, index) => {
         if (index === parseInt(event.target.value, 10)) {
-          this.setActiveBalance(symbol.token);
-          this.setActiveSymbol(symbol.symbol);
-          this.setSelectedToken(symbol.token);
+          this.setSelectedToken(symbol);
         }
       });
     },

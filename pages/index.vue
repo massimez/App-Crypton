@@ -44,7 +44,7 @@
               Your balance:
             </p>
           </span>
-          <p>{{ getActiveBalance }} {{ getActiveSymbol }}</p>
+          <p>{{ getSelectedToken.balance }} {{ getSelectedToken.symbol }}</p>
         </div>
         <div class="flex mt-32">
           <p class="mr-12">
@@ -77,12 +77,21 @@
         <div
           v-for="(item, index) in transfersHistory"
           :key="index"
-          style="background-color: #F3F5FA;height: 60px;width: 100%; align-items: center;padding-left: 10px;padding-right: 10px"
-          class="mt-2 flex flex--space"
+          style="background-color: #F3F5FA;height: 60px;width: 100%;display: grid;grid-template-columns: 1fr 1fr 1fr;align-items: center;padding-left: 10px;padding-right: 10px;justify-items: start"
+          class="mt-2"
         >
-          <p>{{ index }}</p>
+          <p>{{ index }}-{{ item.event }}--{{ item.blockNumber }}</p>
           <p>{{ item.to }}</p>
-          <p>{{ item.value }}{{ item.symbol }}</p>
+          <div style="justify-self: end">
+            <div
+              v-for="(cryptoData, i) in getAllCryptoSymbols"
+              :key="i"
+            >
+              <p v-if="cryptoData.token === item.token">
+                {{ fromBigNumber(item.value, cryptoData.decimal) }} {{ cryptoData.symbol }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -91,8 +100,9 @@
 <script>
 
 import { mapGetters, mapActions } from 'vuex';
+import BigNumber from 'bignumber.js';
 import {
-  getAllowanceWeb3, getTransaction, setApproveWeb4, setTransferweb4,
+  getAllowanceWeb3, setApproveWeb4, setTransferweb4,
 } from '~/utils/web3';
 
 export default {
@@ -109,14 +119,11 @@ export default {
     ...mapGetters({
       getAllCryptoSymbols: 'wallet/getAllCryptoSymbols',
       IsWeb3Initialized: 'wallet/getIsWeb3Initialized',
-      getActiveBalance: 'wallet/getActiveBalance',
       getSelectedToken: 'wallet/getSelectedToken',
-      getActiveSymbol: 'wallet/getActiveSymbol',
       getUserAddress: 'wallet/getUserAddress',
       getAllowance: 'wallet/getAllowance',
       getRecipient: 'wallet/getRecipient',
       getAmount: 'wallet/getAmount',
-      decimal: 'wallet/getDecimal',
       modalErr: 'wallet/getModalErr',
       transfersHistory: 'wallet/getTransfersHistory',
     }),
@@ -128,7 +135,6 @@ export default {
   methods: {
     ...mapActions({
       setWeb3Initialized: 'wallet/setWeb3Initialized',
-      setAllCryptoSymbols: 'wallet/setAllCryptoSymbols',
       setSelectedToken: 'wallet/setSelectedToken',
       setAmount: 'wallet/setAmount',
       setRecipient: 'wallet/setRecipient',
@@ -138,12 +144,14 @@ export default {
       setApprove: 'wallet/setApprove',
       setHistory: 'wallet/setTransferHistory',
     }),
+    fromBigNumber(value, decimal) {
+      return new BigNumber(value).shiftedBy(-decimal).toString();
+    },
     async handleGetAllowance() {
       try {
         if (this.IsWeb3Initialized) {
           this.setLoading(true);
-          console.log(this.getSelectedToken, this.getRecipient, 'getAllo');
-          const allowance = await getAllowanceWeb3(this.getSelectedToken, this.getRecipient);
+          const allowance = await getAllowanceWeb3(this.getSelectedToken.token, this.getRecipient);
           // await this.setAllowance(allowance);
           console.log(allowance, 'Allowance');
           if (allowance) {
@@ -161,14 +169,13 @@ export default {
     },
     async handleTransfer() {
       this.setLoading(true);
-      console.log(this.getAmount, this.decimal, this.getRecipient, 'handletr');
-      const transfer = await setTransferweb4(this.getSelectedToken, this.getAmount, this.decimal, this.getRecipient);
+      console.log(this.getAmount, this.getSelectedToken.decimal, this.getRecipient, 'handletr');
+      const transfer = await setTransferweb4(this.getSelectedToken.token, this.getAmount, this.getSelectedToken.decimal, this.getRecipient);
       if (transfer) {
         this.setLoading(false);
         this.showModal = true;
         this.textHeader = 'Succes';
         this.textBody = 'Successful operation';
-        await this.setHistory();
       } else {
         this.setLoading(false);
         this.showModal = true;
@@ -179,7 +186,7 @@ export default {
     async handleApprove() {
       this.setLoading(true);
       console.log(this.getSelectedToken, this.getAmount, this.decimal, this.getRecipient, 'handlApprove');
-      const transfer = await setApproveWeb4(this.getSelectedToken, this.getAmount, this.decimal, this.getRecipient);
+      const transfer = await setApproveWeb4(this.getSelectedToken.token, this.getAmount, this.getSelectedToken.decimal, this.getRecipient);
       if (transfer) {
         this.setLoading(false);
         this.showModal = true;
@@ -195,6 +202,7 @@ export default {
     handleAmountInput() {
       this.setAmount(this.amount);
     },
+
   },
 };
 </script>
