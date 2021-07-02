@@ -99,7 +99,7 @@ export async function sendTransferWeb4(addressToken, amount, decimal, recipient)
   try {
     console.log(addressToken, amount, decimal, recipient);
     const instance = await createInst(ERC20, addressToken);
-    const amountInBigNumber = new BigNumber(amount).shiftedBy(+decimal).toString();
+    const amountInBigNumber = new BigNumber(amount).shiftedBy(+decimal);
     const transfer = await instance.transfer(recipient, amountInBigNumber);
     console.log(transfer);
     return true;
@@ -111,7 +111,7 @@ export async function sendTransferWeb4(addressToken, amount, decimal, recipient)
 export async function sendApproveWeb4(addressToken, amount, decimal, recipient) {
   try {
     const instance = await createInst(ERC20, addressToken);
-    const amountInBigNumber = new BigNumber(amount).shiftedBy(+decimal).toString();
+    const amountInBigNumber = new BigNumber(amount).shiftedBy(+decimal);
     await instance.approve(recipient, amountInBigNumber);
     return true;
   } catch (e) {
