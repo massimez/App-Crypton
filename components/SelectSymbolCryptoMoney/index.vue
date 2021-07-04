@@ -2,6 +2,7 @@
   <select
     :style="BaseSelectCMStyles"
     :name="name"
+    class="select__symbol"
     @change="handleSelect($event)"
   >
     <option
@@ -27,7 +28,7 @@ export default {
     },
     bgColor: {
       type: String,
-      default: '#63BCD8',
+      default: '',
     },
     height: {
       type: String,
@@ -67,3 +68,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.select__symbol{
+  background-color: var(--color-primary-btn);
+  color: var(--color);
+}
+</style>

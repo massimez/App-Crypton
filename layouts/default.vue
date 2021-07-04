@@ -2,16 +2,17 @@
   <div class="primary">
     <div class="primary__template template">
       <div class="template__header ">
-        <div class="flex flex--end w-100 mt-40 ">
+        <div class="flex flex--space w-100 mt-40">
+          <ColorModePicker />
           <button
             v-if="IsWeb3Initialized"
-            class="base-btn layout__btn-style ml-auto"
+            class="base-btn layout__btn-style ml-auto mb-8"
           >
             Disconnect wallet
           </button>
           <button
             v-else
-            class="base-btn layout__btn-style ml-auto"
+            class="base-btn layout__btn-style ml-auto mb-8"
             @click="connectWallet"
           >
             Connect wallet
@@ -31,8 +32,10 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import ColorModePicker from '~/components/ColorPickerMode';
 
 export default {
+  components: { ColorModePicker },
   computed: {
     ...mapGetters({
       IsWeb3Initialized: 'wallet/IsWeb3Initialized',
@@ -65,7 +68,7 @@ export default {
   &__template {
     height: 100%;
     display: grid;
-    grid-template-rows: 100px 1fr auto;
+    grid-template-rows: 130px 1fr auto;
   }
 }
 
@@ -79,10 +82,11 @@ export default {
     position: relative;
   }
   .layout__btn-style{
-  background-color: #63BCD8;
-  height:50px ;
+    background-color: var(--color-primary-btn);
+    height:50px ;
     width:187px ;
     color: white;
   }
+
 }
 </style>

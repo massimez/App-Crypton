@@ -2,6 +2,7 @@
   <input
     :style="baseInputStyles"
     :type="inputType"
+    class="input__address"
     :name="inputName"
     :placeholder="valueIn"
     :step="step"
@@ -23,7 +24,7 @@ export default {
     },
     bgColor: {
       type: String,
-      default: '#F3F5FA',
+      default: '',
     },
     height: {
       type: String,
@@ -82,5 +83,8 @@ export default {
 </script>
 
 <style scoped>
-
+.input__address{
+  background-color: var(--color-primary-input);
+  color: var(--color);
+}
 </style>

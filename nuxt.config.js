@@ -29,6 +29,7 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/dotenv',
     '@nuxtjs/color-mode',
+    'nuxt-svg-loader',
   ],
   styleResources: {
     scss: ['./assets/scss/resourses.scss'],
@@ -38,6 +39,7 @@ export default {
     'bootstrap-vue/nuxt',
     'nuxt-i18n',
     'cookie-universal-nuxt',
+    'nuxt-svg-loader',
   ],
   build: {
     transpile: [
@@ -47,7 +49,7 @@ export default {
   // bootstrapVue: {
   //   // bootstrapCSS: false, // Or `css: false`
   //   // bootstrapVueCSS: false, // Or `bvCSS: false`
-  //   icons: true,
+  //   img: true,
   // },
   i18n: {
     locales: ['en'],
@@ -56,6 +58,7 @@ export default {
     vueI18n: {
       messages: {
         en: localeEn,
+        ru: localeRu,
       },
     },
     detectBrowserLanguage: {

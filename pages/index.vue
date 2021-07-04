@@ -77,9 +77,7 @@
         <div
           v-for="(element, index) in transfersHistory"
           :key="index"
-          style="background-color: #F3F5FA;height: 60px;width: 100%;display: grid;
-          grid-template-columns: 1fr 1fr 1fr;align-items: center;padding-left: 10px;padding-right: 10px;justify-items: start"
-          class="mt-2"
+          class="container__transaction mt-2"
         >
           <p>{{ index }}-{{ element.event }}--{{ element.blockNumber }}</p>
           <p v-if="element.to.toLowerCase() === getUserAddress.toLowerCase()">
@@ -217,7 +215,7 @@ export default {
 }
 .example {
   @include container;
-  background: #ffffff;
+  background: var(--bg);
   &__content {
     height: 300px;
   }
@@ -225,13 +223,14 @@ export default {
     font-size: 60px;
   }
   .layout__btn-style{
-    background-color: #63BCD8;
+    background-color: var(--color-primary-btn);
     height:50px ;
     width:187px ;
     color: white;
   }
   .input__amount{
-    background-color: #F3F5FA;
+    background-color: var(--color-primary-input);
+    color: var(--color);
     height: 70px;
     width: 80%;
     font-family: Roboto;
@@ -239,6 +238,17 @@ export default {
     font-size: 18px;
     text-indent: 10px;
     border: 1px;
+  }
+  .container__transaction {
+    background-color: var(--color-primary-input);
+    height: 60px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-items: start;
   }
 }
 </style>
