@@ -1,2 +1,7 @@
-
-
+@mixin box {
+  background: var(--white);
+  border-radius: 20px;
+  border: 1px solid var(--white);
+  padding: 30px 30px 7px;
+  width: 100%;
+}

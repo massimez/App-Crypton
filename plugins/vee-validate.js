@@ -10,8 +10,8 @@ import {
 
 import * as rules from 'vee-validate/dist/rules';
 
-Vue.component('validation-provider', ValidationProvider);
-Vue.component('validation-observer', ValidationObserver);
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 setInteractionMode('eager');
 
 Object.keys(rules).forEach((rule) => {

@@ -5,22 +5,18 @@
     </div>
   </base-modal-box>
 </template>
+<script lang="ts">
+import { mapGetters } from 'vuex'
+import MainVue from '~/mixins/MainVue'
 
-<script>
-import { mapGetters } from 'vuex';
-
-export default {
-  data: () => ({
-
-  }),
+export default MainVue.extend({
   computed: {
     ...mapGetters({
-      options: 'modals/getOptions',
-    }),
-  },
-};
+      options: 'modals/getOptions'
+    })
+  }
+})
 </script>
-
 <style scoped lang="scss">
 .status {
   &__text {

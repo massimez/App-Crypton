@@ -4,7 +4,7 @@
   border: none;
   padding: 0;
   width: 100%;
-  color: #FFFFFF;
+  color: var(--white);
   transition: .3s;
   &:focus {
     outline: none!important;
@@ -22,7 +22,7 @@
     filter: brightness(.84) saturate(.84) hue-rotate(-10deg);
   }
   &:disabled {
-    background: #f3f3f3;
+    background: var(--white700);
     color: #91979c;
     filter: none;
   }

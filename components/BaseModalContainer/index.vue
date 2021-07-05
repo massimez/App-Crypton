@@ -9,39 +9,42 @@
     </div>
   </transition>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import modals from '@/store/modals/modals';
+<script lang="ts">
+import { mapGetters } from 'vuex'
+import MainVue from '~/mixins/MainVue'
 
-import BaseModalStatus from '@/components/Modals/BaseModalStatus';
-import BaseModalDefault from '@/components/Modals/BaseModalDefault';
+import modals from '~/store/modals/modals'
 
-export default {
+import BaseModalStatus from '~/components/Modals/BaseModalStatus/index.vue'
+import BaseModalDefault from '~/components/Modals/BaseModalDefault/index.vue'
+
+export default MainVue.extend({
+  name: 'BaseModalContainer',
   components: {
     'base-modal-status': BaseModalStatus,
-    'base-modal-default': BaseModalDefault,
+    'base-modal-default': BaseModalDefault
   },
   data: () => ({
-    modals,
+    modals
   }),
   computed: {
     ...mapGetters({
       isShow: 'modals/getIsShow',
       currentModalKey: 'modals/getCurrentModalKey',
-      options: 'modals/getOptions',
-    }),
+      options: 'modals/getOptions'
+    })
   },
   methods: {
-    backgroundClick() {
+    backgroundClick () {
       if (!this.options.isUnclosable) {
-        this.close();
+        this.close()
       }
     },
-    close() {
-      this.$store.dispatch('modals/hide');
-    },
-  },
-};
+    close () {
+      this.$store.dispatch('modals/hide')
+    }
+  }
+})
 </script>
 <style lang="scss" scoped>
 .base-modal {

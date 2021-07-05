@@ -10,28 +10,28 @@
       </span>
       <span v-else>
         <Dark />
-      </span><span v-if="$colorMode.preference === 'system'">(<i>{{ $colorMode.value }}</i> mode detected)</span>
+      </span>
     </ColorScheme>
   </button>
 </template>
 
 <script>
-import Light from '~/assets/img/light.svg';
-import Dark from '~/assets/img/dark.svg';
+import Light from '~/static/img/light.svg'
+import Dark from '~/static/img/dark.svg'
 
 export default {
-  name: 'ColorModePicker',
+  name: 'color-mode-picker',
   components: { Light, Dark },
   methods: {
-    toggleDarkMode() {
+    toggleDarkMode () {
       if (this.$colorMode.preference !== 'dark') {
-        this.$colorMode.preference = 'dark';
+        this.$colorMode.preference = 'dark'
       } else {
-        this.$colorMode.preference = 'light';
+        this.$colorMode.preference = 'light'
       }
-    },
-  },
-};
+    }
+  }
+}
 
 </script>
 

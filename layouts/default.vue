@@ -1,92 +1,62 @@
 <template>
   <div class="primary">
     <div class="primary__template template">
-      <div class="template__header ">
-        <div class="flex flex--space w-100 mt-40">
-          <ColorModePicker />
-          <button
-            v-if="IsWeb3Initialized"
-            class="base-btn layout__btn-style ml-auto mb-8"
-          >
-            Disconnect wallet
-          </button>
-          <button
-            v-else
-            class="base-btn layout__btn-style ml-auto mb-8"
-            @click="connectWallet"
-          >
-            Connect wallet
-          </button>
-        </div>
+      <div class="template__header">
+        <Header />
       </div>
       <div class="template__content">
-        <nuxt />
+        <Sidebar />
+        <div class="template__container">
+          <nuxt />
+        </div>
       </div>
-      <!--      <div class="template__footer">-->
-      <!--        Footer-->
-      <!--      </div>-->
     </div>
     <base-modal-container />
     <loader-screen />
   </div>
 </template>
-<script>
-import { mapGetters, mapActions } from 'vuex';
-import ColorModePicker from '~/components/ColorPickerMode';
+<script lang="ts">
+import MainVue from '~/mixins/MainVue'
+import Header from '~/components/ui/BaseHeader/index.vue'
+import Sidebar from '~/components/ui/BaseSidebar/index.vue'
 
-export default {
-  components: { ColorModePicker },
-  computed: {
-    ...mapGetters({
-      IsWeb3Initialized: 'wallet/IsWeb3Initialized',
-      getUserAddress: 'wallet/getUserAddress',
-    }),
-  },
-  mounted() {
-
-  },
-  methods: {
-    ...mapActions({
-      initializeWeb3: 'wallet/initializeWeb3',
-      setTransactionsHistory: 'wallet/setTransactionsHistory',
-    }),
-    async connectWallet() {
-      this.SetLoader(true);
-      if (await this.initializeWeb3({ isInitialised: true })) {
-        this.SetLoader(false);
-      }
-      await this.setTransactionsHistory({ userAddress: this.getUserAddress });
-    },
-  },
-};
+export default MainVue.extend({
+  components: {
+    Header,
+    Sidebar
+  }
+})
 </script>
 <style lang="scss" scoped>
 .primary {
   height: 100vh;
-  margin-right: 15%;
-  margin-left: 15%;
+  overflow-y: auto;
   &__template {
-    height: 100%;
+    height: 60px;
     display: grid;
-    grid-template-rows: 130px 1fr auto;
+    grid-template-rows: 60px 1fr auto;
   }
 }
-
 .template {
-  height: 100%;
+  font-family: "Roboto", sans-serif;
   min-height: 100vh;
+  overflow: auto;
   &__content {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     position: relative;
+    width: 100%;
+    overflow-y: auto;
+    color: var(--black);
+    background-color: var(--white);
   }
-  .layout__btn-style{
-    background-color: var(--color-primary-btn);
-    height:50px ;
-    width:187px ;
-    color: white;
+  &__container {
+    font-size: 14px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
   }
-
+  &__header {
+    height: 100%;
+  }
 }
 </style>

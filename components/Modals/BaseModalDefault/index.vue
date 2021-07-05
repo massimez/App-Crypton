@@ -6,14 +6,15 @@
   </base-modal-box>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
+<script lang="ts">
+import { mapGetters } from 'vuex'
+import MainVue from '~/mixins/MainVue'
 
-export default {
+export default MainVue.extend({
   computed: {
     ...mapGetters({
-      options: 'modals/getOptions',
-    }),
-  },
-};
+      options: 'modals/getOptions'
+    })
+  }
+})
 </script>

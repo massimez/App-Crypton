@@ -9,44 +9,43 @@
       </div>
       <button
         v-if="!options.isUnclosable"
-        class="base-modal__x"
+        class="base-modal__x icon-Close"
         @click="close()"
-      >
-        x
-      </button>
+      />
     </div>
     <slot />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
+<script lang="ts">
+import { mapGetters } from 'vuex'
+import MainVue from '~/mixins/MainVue'
 
-export default {
+export default MainVue.extend({
   props: {
     title: {
       type: String,
-      default: '',
+      default: ''
     },
     isUnclosable: {
       type: Boolean,
-      default: false,
+      default: false
     },
     isHeader: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   computed: {
     ...mapGetters({
-      options: 'modals/getOptions',
-    }),
+      options: 'modals/getOptions'
+    })
   },
   methods: {
-    close() {
-      this.$store.dispatch('modals/hide');
-    },
-  },
-};
+    close () {
+      this.$store.dispatch('modals/hide')
+    }
+  }
+})
 </script>
 <style lang="scss" scoped>
 .base-modal {
