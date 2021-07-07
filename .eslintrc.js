@@ -28,6 +28,6 @@ module.exports = {
     'no-return-await': 'off',
     'no-unused-vars': 'off',
     'import/no-dynamic-require': 'off',
-    'no-restricted-globals': 'off'
+    'no-restricted-globals': 'off',
   },
 };

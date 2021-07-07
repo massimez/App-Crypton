@@ -1,5 +1,15 @@
 {
   "test": "Hello world!",
+  "amount": "Amount",
+  "address": "Address",
+  "connectWallet": "Connect the wallet",
+  "disconnectWallet": "Disconnect the wallet",
+  "balance": "Balance",
+  "yourAllowance": "Allowance",
+  "transfer":"Transfer",
+  "allowance": "Allowance",
+  "approval": "Approval",
+  "yourTransactions": "Your transactions",
   "messages": {
     "alpha": "The {_field_} field may only contain alphabetic characters",
     "alpha_num": "The {_field_} field may only contain alpha-numeric characters",

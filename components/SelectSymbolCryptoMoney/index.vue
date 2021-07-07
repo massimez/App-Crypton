@@ -20,7 +20,7 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'SelectCryptoMoney',
+  name: 'select-symbol-crypto-money',
   props: {
     name: {
       type: String,

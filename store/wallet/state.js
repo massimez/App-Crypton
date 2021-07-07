@@ -9,5 +9,5 @@ export default () => ({
   allowance: '',
   userAddress: '',
   transactionsHistory: [],
-  modalErr: null,
+  modalErrMsg: null,
 });

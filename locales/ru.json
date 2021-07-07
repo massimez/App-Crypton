@@ -1,3 +1,15 @@
 {
-
+  "connectWallet": "Подключить кошелек",
+  "disconnectWallet": "Отключить кошелек",
+  "amount": "Сумма",
+  "address": "Адрес",
+  "balance": "Ваш баланс",
+  "yourAllowance": "Ваше пособие",
+  "transfer":"Сделать перевод",
+  "allowance": "Получать пособие",
+  "approval": "Получить одобрение",
+  "yourTransactions": "Ваши транзакции",
+  "messages": {
+    "alpha": "{_field_} может содержать только буквенные символы."
+  }
 }

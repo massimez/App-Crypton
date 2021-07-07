@@ -1,28 +1,17 @@
 export default {
-  addWeb3Initialized(state, payload) {
+  SET_WEB3_INITIALIZED(state, payload) {
     state.isWeb3Initialized = payload;
   },
-  addSelectedToken(state, payload) {
+  SET_SELECTED_TOKEN(state, payload) {
     state.selectedToken = payload;
   },
-  addAllTokensData(state, payload) {
+  ADD_ALL_TOKENS_DATA(state, payload) {
     payload.map((item) => {
       state.allTokensData.push(item);
       return null;
     });
   },
-  addTransactionsHistory(state, payload) {
-    const transaction = {
-      token: payload.address.toLowerCase(),
-      blockNumber: payload.blockNumber,
-      event: payload.event,
-      to: payload.returnValues[1],
-      value: payload.returnValues.value,
-      transactionHash: payload.transactionHash,
-    };
-    state.transactionsHistory.push(transaction);
-  },
-  addReceivedTransaction(state, payload) {
+  ADD_TRANSACTION_HISTORY(state, payload) {
     const transaction = {
       token: payload.address.toLowerCase(),
       blockNumber: payload.blockNumber,
@@ -34,19 +23,19 @@ export default {
     };
     state.transactionsHistory.push(transaction);
   },
-  addRecipient(state, payload) {
+  SET_RECIPIENT(state, payload) {
     state.recipient = payload;
   },
-  addAmount(state, payload) {
+  SET_AMOUNT(state, payload) {
     state.amount = payload;
   },
-  addAllowance(state, payload) {
+  SET_ALLOWANCE(state, payload) {
     state.allowance = payload;
   },
-  addUserAddress(state, payload) {
+  SET_USER_ADDRESS(state, payload) {
     state.userAddress = payload;
   },
-  addModalErr(state, payload) {
+  SET_MODAL_ERR_MSG(state, payload) {
     state.modalErr = payload;
   },
 };

@@ -2,22 +2,23 @@
   <div class="primary">
     <div class="primary__template template">
       <div class="template__header ">
-        <div class="flex flex--space w-100 mt-40">
-          <ColorModePicker />
-          <button
-            v-if="IsWeb3Initialized"
-            class="base-btn layout__btn-style ml-auto mb-8"
-          >
-            Disconnect wallet
-          </button>
-          <button
-            v-else
-            class="base-btn layout__btn-style ml-auto mb-8"
-            @click="connectWallet"
-          >
-            Connect wallet
-          </button>
+        <div class="header__option">
+          <lang-switcher />
+          <color-mode-picker />
         </div>
+        <button
+          v-if="IsWeb3Initialized"
+          class="base-btn layout__btn-style ml-auto mb-8"
+        >
+          {{ $t("disconnectWallet") }}
+        </button>
+        <button
+          v-else
+          class="base-btn layout__btn-style ml-auto mb-8"
+          @click="connectWallet"
+        >
+          {{ $t("connectWallet") }}
+        </button>
       </div>
       <div class="template__content">
         <nuxt />
@@ -48,14 +49,14 @@ export default {
   methods: {
     ...mapActions({
       initializeWeb3: 'wallet/initializeWeb3',
-      setTransactionsHistory: 'wallet/setTransactionsHistory',
+      fetchTransactionsHistory: 'wallet/fetchTransactionsHistory',
     }),
     async connectWallet() {
       this.SetLoader(true);
       if (await this.initializeWeb3({ isInitialised: true })) {
         this.SetLoader(false);
       }
-      await this.setTransactionsHistory({ userAddress: this.getUserAddress });
+      await this.fetchTransactionsHistory({ userAddress: this.getUserAddress });
     },
   },
 };
@@ -86,6 +87,15 @@ export default {
     height:50px ;
     width:187px ;
     color: white;
+  }
+  &__header{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    &__option{
+      justify-content: center;
+      align-content: flex-start;
+    }
   }
 
 }

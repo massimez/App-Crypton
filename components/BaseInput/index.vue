@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'IndexVue',
+  name: 'base-input',
   props: {
     inputName: {
       type: String,

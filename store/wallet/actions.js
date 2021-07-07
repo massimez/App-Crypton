@@ -29,50 +29,50 @@ export default {
     };
     await Promise.all([resInitialization = await initWeb3Wallet(), await fetchTokensData()]);
     if (resInitialization.ok) {
-      commit('addWeb3Initialized', isInitialised);
-      commit('addAllTokensData', resSymbols);
-      commit('addUserAddress', resInitialization.result);
-      commit('addSelectedToken', {
+      commit('SET_WEB3_INITIALIZED', isInitialised);
+      commit('ADD_ALL_TOKENS_DATA', resSymbols);
+      commit('SET_USER_ADDRESS', resInitialization.result);
+      commit('SET_SELECTED_TOKEN', {
         token: resSymbols[0].token, balance: resSymbols[0].balance, symbol: resSymbols[0].symbol, decimal: resSymbols[0].decimal,
       });
       return true;
     }
-    commit('addModalErr', resInitialization.msg);
+    commit('SET_MODAL_ERR_MSG', resInitialization.msg);
     return false;
   },
-  async setTransactionsHistory({ commit, getters }, payload) {
+  async fetchTransactionsHistory({ commit }, payload) {
     tokens.map(async (token) => {
       const contract = initContract(token);
       await contract.events.Transfer({
         fromBlock: 0,
         filter: { from: payload.userAddress },
       }, (err, event) => {
-        commit('addTransactionsHistory', event);
+        commit('ADD_TRANSACTIONS_HISTORY', event);
       });
       await contract.events.Transfer({
         fromBlock: 0,
         filter: { to: payload.userAddress },
       }, (err, event) => {
-        commit('addReceivedTransaction', event);
+        commit('ADD_TRANSACTION_HISTORY', event);
       });
       await contract.events.Approval({
         fromBlock: 0,
         filter: { owner: payload.userAddress },
       }, (err, event) => {
-        commit('addTransactionsHistory', event);
+        commit('ADD_TRANSACTION_HISTORY', event);
       });
     });
   },
   async setSelectedToken({ commit }, payload) {
-    commit('addSelectedToken', payload);
+    commit('SET_SELECTED_TOKEN', payload);
   },
   setRecipient({ commit }, payload) {
-    commit('addRecipient', payload);
+    commit('SET_RECIPIENT', payload);
   },
   setAmount({ commit }, payload) {
-    commit('addAmount', payload);
+    commit('SET_AMOUNT', payload);
   },
   setAllowance({ commit }, payload) {
-    commit('addAllowance', payload);
+    commit('SET_ALLOWANCE', payload);
   },
 };

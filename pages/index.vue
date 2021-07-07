@@ -1,13 +1,13 @@
 <template>
   <div class="example">
-    <ModalNotification
+    <modal-notification
       v-if="showModal"
       :text-header="textHeader"
       :text-body="textBody"
       :text-footer="textFooter"
       @close="showModal = false"
     />
-    <ModalNotification
+    <modal-notification
       v-if="modalErr"
       text-header="Error"
       :text-body="modalErr"
@@ -16,7 +16,7 @@
     <div class="example__content">
       <div class="example__title" />
       <div>
-        <label>Amount:</label>
+        <label>{{ $t("amount") }}:</label>
         <div class="flex flex--space mb-60">
           <input
             v-model="amount"
@@ -26,12 +26,12 @@
             @change="handleAmountInput"
           >
 
-          <SelectCryptoMoney
+          <select-symbol-crypto-money
             name="SymbolCryptoMoney"
           />
         </div>
-        <label>Address:</label>
-        <BaseInput
+        <label>{{ $t("address") }}:</label>
+        <base-input
           class="mr-32"
           input-type="text"
           input-name="address"
@@ -41,38 +41,39 @@
         <div class="flex mt-32">
           <span class="mr-12">
             <p class="mr-12">
-              Your balance:
+              {{ $t("balance") }}:
             </p>
           </span>
           <p>{{ getSelectedToken.balance }} {{ getSelectedToken.symbol }}</p>
         </div>
         <div class="flex mt-32">
           <p class="mr-12">
-            Your allowance: {{ readBigNumber(getAllowance,getSelectedToken.decimal) }}
+            {{ $t("yourAllowance") }}: {{ readBigNumber(getAllowance,getSelectedToken.decimal) }}
           </p>
         </div>
-        <div class="flex mt-32">
+        <div class="flex mt-16">
           <button
-            class="base-btn layout__btn-style mr-32"
+            type="submit"
+            class="base-btn layout__btn-style mt-8 mr-32"
             @click="handleGetAllowance"
           >
-            Get allowance
+            {{ $t("allowance") }}
           </button>
           <button
-            class="base-btn layout__btn-style mr-32"
+            class="base-btn layout__btn-style mt-8 mr-32"
             @click="handleApprove"
           >
-            Approve
+            {{ $t("approval") }}
           </button>
           <button
-            class="base-btn layout__btn-style "
+            class="base-btn mt-8 layout__btn-style "
             @click="handleTransfer"
           >
-            Transfer
+            {{ $t("transfer") }}
           </button>
         </div>
         <div class="mt-32 mb-8">
-          <h1>Your Transactions</h1>
+          <h1> {{ $t("yourTransactions") }} </h1>
         </div>
         <div
           v-for="(element, index) in transfersHistory"
@@ -104,10 +105,12 @@ import BigNumber from 'bignumber.js';
 import {
   getAllowanceWeb3, sendTransferWeb4, sendApproveWeb4,
 } from '~/utils/web3';
-import SelectCryptoMoney from '~/components/SelectSymbolCryptoMoney';
+import ModalNotification from '~/components/ModalNotification';
+import SelectSymbolCryptoMoney from '~/components/SelectSymbolCryptoMoney';
+import BaseInput from '~/components/BaseInput';
 
 export default {
-  components: { SelectCryptoMoney },
+  components: { BaseInput, SelectSymbolCryptoMoney, ModalNotification },
   data() {
     return {
       showModal: false,
@@ -140,7 +143,6 @@ export default {
       setRecipient: 'wallet/setRecipient',
       setAllowance: 'wallet/setAllowance',
       setLoading: 'loader/setLoading',
-      setApprove: 'wallet/setApprove',
     }),
     readBigNumber(value, decimal) {
       if (value && decimal) return new BigNumber(value).shiftedBy(-decimal).toString();
@@ -171,12 +173,11 @@ export default {
     },
     async handleTransfer() {
       this.setLoading(true);
-      console.log(this.getAmount, this.getSelectedToken.decimal, this.getRecipient, 'handletr');
       const transfer = await sendTransferWeb4(this.getSelectedToken.token, this.getAmount, this.getSelectedToken.decimal, this.getRecipient);
       if (transfer) {
         this.setLoading(false);
         this.showModal = true;
-        this.textHeader = 'Succes';
+        this.textHeader = 'Success';
         this.textBody = 'Successful operation';
       } else {
         this.setLoading(false);
@@ -187,12 +188,11 @@ export default {
     },
     async handleApprove() {
       this.setLoading(true);
-      console.log(this.getSelectedToken, this.getAmount, this.decimal, this.getRecipient, 'handlApprove');
       const transfer = await sendApproveWeb4(this.getSelectedToken.token, this.getAmount, this.getSelectedToken.decimal, this.getRecipient);
       if (transfer) {
         this.setLoading(false);
         this.showModal = true;
-        this.textHeader = 'Succes';
+        this.textHeader = 'Success';
         this.textBody = 'Successful operation';
       } else {
         this.setLoading(false);

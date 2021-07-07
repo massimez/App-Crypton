@@ -1,0 +1,15 @@
+{
+  "connectWallet": "Connecter le portefeuille",
+  "disconnectWallet": "Déconnecter le portefeuille",
+  "amount": "Le montant",
+  "address": "Adresse",
+  "balance": "Solde",
+  "yourAllowance": "Allocation",
+  "transfer":"Transférer",
+  "allowance": "Allocation",
+  "approval": "Approbation",
+  "yourTransactions": "Vos opérations",
+  "messages": {
+    "alpha": "{_field_} может содержать только буквенные символы."
+  }
+}

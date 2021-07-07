@@ -2,26 +2,25 @@
   <button
     @click="toggleDarkMode()"
   >
-    <ColorScheme
+    <color-scheme
       tag="span"
     >
       <span v-if="$colorMode.value === 'dark'">
-        <Light style="color: white" />
+        <light-icon style="color: white" />
       </span>
       <span v-else>
-        <Dark />
-      </span><span v-if="$colorMode.preference === 'system'">(<i>{{ $colorMode.value }}</i> mode detected)</span>
-    </ColorScheme>
+        <dark-icon />
+      </span>
+    </color-scheme>
   </button>
 </template>
 
 <script>
-import Light from '~/assets/img/light.svg';
-import Dark from '~/assets/img/dark.svg';
+import LightIcon from '~/assets/img/icons/light.svg';
+import DarkIcon from '~/assets/img/icons/dark.svg';
 
 export default {
-  name: 'ColorModePicker',
-  components: { Light, Dark },
+  components: { LightIcon, DarkIcon },
   methods: {
     toggleDarkMode() {
       if (this.$colorMode.preference !== 'dark') {

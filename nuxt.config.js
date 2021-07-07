@@ -1,4 +1,6 @@
 import localeEn from './locales/en.json';
+import localeRu from './locales/ru.json';
+import localeFr from './locales/fr.json';
 
 require('dotenv').config();
 
@@ -39,7 +41,6 @@ export default {
     'bootstrap-vue/nuxt',
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'nuxt-svg-loader',
   ],
   build: {
     transpile: [
@@ -52,13 +53,27 @@ export default {
   //   img: true,
   // },
   i18n: {
-    locales: ['en'],
+    locales: [
+      {
+        code: 'en',
+        name: 'English',
+      },
+      {
+        code: 'ru',
+        name: 'Русский',
+      },
+      {
+        code: 'fr',
+        name: 'Français',
+      },
+    ],
     defaultLocale: 'en',
     strategy: 'no_prefix',
     vueI18n: {
       messages: {
         en: localeEn,
         ru: localeRu,
+        fr: localeFr,
       },
     },
     detectBrowserLanguage: {
